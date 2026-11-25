@@ -301,3 +301,23 @@ export function useAddAction() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["actions"] }),
   });
 }
+
+
+/** Read-only real telemetry for the overview. No synthetic fallback. */
+export function useOverviewReadings(ids: string[]) {
+  const { user, isDemoMode } = useStore();
+  const unique = [...new Set(ids)].sort();
+  return useQuery({
+    queryKey: ["overview-readings", user?.id, unique],
+    enabled: !!user && !isDemoMode && unique.length > 0,
+    refetchInterval: 30_000,
+    queryFn: async () => {
+      const pairs = await Promise.all(unique.map(async (id) => {
+        const { data, error } = await supabase.from("sensor_readings").select("*").eq("nurse_id", id).order("recorded_at", { ascending: false }).limit(12);
+        if (error) throw error;
+        return [id, data ?? []] as const;
+      }));
+      return new Map(pairs);
+    },
+  });
+}

@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vercel local project linkage and build output
+.vercel/
+# Local credentials; existing tracked public configuration is retained
+.env.local
+.env.*.local

@@ -14,9 +14,9 @@ export const Route = createFileRoute("/actions")({
   validateSearch: (s: Record<string, unknown>) => ({ nurse: typeof s["nurse"] === "string" ? (s["nurse"] as string) : undefined }),
   head: () => ({
     meta: [
-      { title: "Manual Actions — Nurse Stress Monitor" },
+      { title: "Manual Actions — NurseCare Monitor" },
       { name: "description", content: "Record and review supervisor actions." },
-      { property: "og:title", content: "Manual Actions — Nurse Stress Monitor" },
+      { property: "og:title", content: "Manual Actions — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Record and review supervisor actions." },

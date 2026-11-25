@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./components/branding.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -44,7 +45,7 @@
   --color-status-unknown: var(--status-unknown);
   --color-status-unknown-soft: var(--status-unknown-soft);
 
-  --color-chart-1: #244D45;
+  --color-chart-1: #005859;
   --color-chart-2: #3B7266;
   --color-chart-3: #B7791F;
   --color-chart-4: #C24152;
@@ -61,54 +62,54 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Specific Design Palette Tokens */
-  --color-canvas: #F7F8F5;
-  --color-ink: #192C28;
-  --color-pine: #244D45;
-  --color-sage: #C6E2D6;
+  --color-canvas: #F4F8F8;
+  --color-ink: #08242d;
+  --color-pine: #005859;
+  --color-sage: #ccece7;
 }
 
 :root {
   --radius: 0.5rem;
-  /* Palette: Canvas (#F7F8F5), Surfaces (#FFFFFF), Ink (#192C28), Pine (#244D45), Sage (#C6E2D6), Border (#E1E6E1), Muted (#64766E) */
-  --background: #F7F8F5;
-  --foreground: #192C28;
+  /* Palette: Canvas (#F4F8F8), Surfaces (#FFFFFF), Ink (#08242d), Pine (#005859), Sage (#ccece7), Border (#E1E6E1), Muted (#64766E) */
+  --background: #F4F8F8;
+  --foreground: #08242d;
   --card: #FFFFFF;
-  --card-foreground: #192C28;
+  --card-foreground: #08242d;
   --popover: #FFFFFF;
-  --popover-foreground: #192C28;
-  --primary: #244D45;
+  --popover-foreground: #08242d;
+  --primary: #005859;
   --primary-foreground: #FFFFFF;
-  --secondary: #EFF3F0;
-  --secondary-foreground: #192C28;
-  --muted: #EFF3F0;
+  --secondary: #edf5f4;
+  --secondary-foreground: #08242d;
+  --muted: #edf5f4;
   --muted-foreground: #64766E;
-  --accent: #E6EFEA;
-  --accent-foreground: #244D45;
+  --accent: #e4f2f0;
+  --accent-foreground: #005859;
   --destructive: #C24152;
   --destructive-foreground: #FFFFFF;
   --border: #E1E6E1;
   --input: #D9DFD9;
-  --ring: #244D45;
+  --ring: #005859;
 
   /* Status Colors */
-  --status-normal: #244D45;
-  --status-normal-soft: #E6EFEA;
+  --status-normal: #005859;
+  --status-normal-soft: #e4f2f0;
   --status-moderate: #B7791F;
   --status-moderate-soft: #FFF3DD;
   --status-high: #C24152;
   --status-high-soft: #FDE8EA;
   --status-unknown: #64766E;
-  --status-unknown-soft: #EFF3F0;
+  --status-unknown-soft: #edf5f4;
 
   /* Sidebar Tokens - Light, warm, subtle separation */
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #192C28;
-  --sidebar-primary: #244D45;
+  --sidebar-foreground: #08242d;
+  --sidebar-primary: #005859;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #EFF3F0;
-  --sidebar-accent-foreground: #244D45;
+  --sidebar-accent: #edf5f4;
+  --sidebar-accent-foreground: #005859;
   --sidebar-border: #E1E6E1;
-  --sidebar-ring: #244D45;
+  --sidebar-ring: #005859;
 }
 
 @layer base {

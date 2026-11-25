@@ -20,9 +20,9 @@ import { useActions } from "@/lib/queries";
 export const Route = createFileRoute("/activity")({
   head: () => ({
     meta: [
-      { title: "Activity History & Audit Trail — Nurse Care Monitor" },
+      { title: "Activity History & Audit Trail — NurseCare Monitor" },
       { name: "description", content: "Chronological audit log of physiological alerts, dispatched messages and supervisor interventions." },
-      { property: "og:title", content: "Activity History & Audit Trail — Nurse Care Monitor" },
+      { property: "og:title", content: "Activity History & Audit Trail — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -105,7 +105,7 @@ function ActivityPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-extrabold text-[#172033] tracking-tight">Clinical Activity Timeline & Audit Trail</h2>
+          <h2 className="text-xl font-extrabold text-[#08242d] tracking-tight">Clinical Activity Timeline & Audit Trail</h2>
           <p className="text-xs text-[#64748B]">
             Verifiable chronological log of alerts, check-ins, messages, relief assignments and outcomes.
           </p>
@@ -114,7 +114,7 @@ function ActivityPage() {
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="h-8 rounded-xl border border-[#D9E0EB] bg-white px-3 text-xs font-semibold text-[#172033]"
+          className="h-8 rounded-xl border border-[#D9E0EB] bg-white px-3 text-xs font-semibold text-[#08242d]"
         >
           <option value="all">All Event Types</option>
           <option value="alert">Physiological Strain Alerts</option>
@@ -133,7 +133,7 @@ function ActivityPage() {
                   item.type === "alert"
                     ? "bg-[#C24152]"
                     : item.type === "notification"
-                    ? "bg-[#394BC5]"
+                    ? "bg-[#005859]"
                     : item.type === "support"
                     ? "bg-[#B7791F]"
                     : "bg-[#16835E]"
@@ -148,13 +148,13 @@ function ActivityPage() {
 
               <div className="flex-1 rounded-xl border border-[#E2E7EF] bg-[#F8FAFC] p-4 text-xs transition-all hover:bg-white hover:border-[#D9E0EB] hover:shadow-2xs">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                  <h4 className="font-extrabold text-[#172033] text-sm">{item.title}</h4>
+                  <h4 className="font-extrabold text-[#08242d] text-sm">{item.title}</h4>
                   <span className="font-mono text-[11px] text-[#8E9FB8]">{fmtTimeSec(item.time)}</span>
                 </div>
                 <p className="mt-1 text-xs text-[#64748B] leading-relaxed">{item.detail}</p>
                 <div className="mt-2.5 flex items-center justify-between border-t border-[#EEF2F7] pt-2 text-[11px]">
                   <span className="text-[#8E9FB8]">
-                    Actor: <strong className="text-[#172033]">{item.actor}</strong>
+                    Actor: <strong className="text-[#08242d]">{item.actor}</strong>
                   </span>
                   <span
                     className={`font-extrabold capitalize ${

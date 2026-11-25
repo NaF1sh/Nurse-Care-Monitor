@@ -21,7 +21,7 @@ const en = {
   "stress.stale": "Stale",
   "stress.none": "No prediction yet",
 
-  "login.title": "Nurse Stress Monitor",
+  "login.title": "NurseCare Monitor",
   "login.subtitle.signin": "Sign in to continue",
   "login.subtitle.signup": "Create a supervisor account",
   "login.subtitle.forgot": "Reset your password",

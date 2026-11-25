@@ -1,899 +1,121 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import {
-  Activity,
-  AlertTriangle,
-  ArrowRight,
-  Bell,
-  CheckCircle2,
-  Clock,
-  ExternalLink,
-  HeartHandshake,
-  MessageSquare,
-  RefreshCw,
-  Search,
-  Send,
-  ShieldAlert,
-  Smartphone,
-  Sparkles,
-  User,
-  Users,
-  Wifi,
-  WifiOff,
-  X,
-} from "lucide-react";
-import { useState } from "react";
+import { BrandLoading } from "@/components/SplashScreen";
+import { BrandLogo } from "@/components/BrandLogo";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Activity, ArrowRight, Bell, Check, ChevronDown, ChevronRight, HeartHandshake, Info, MessageSquare, RefreshCw, Search, Send, ShieldCheck, Smartphone, Users, X } from "lucide-react";
+import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
-import { AppShell, StressBadge } from "@/components/app-shell";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { useLatestPredictions, useNurses } from "@/lib/queries";
-import { fmtTime, isStale, useStore, WARDS, type StressLevel } from "@/lib/store";
-import { useT } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
+import { AppShell } from "@/components/app-shell";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { FALLBACK_NURSES, FALLBACK_PREDICTIONS, useLatestPredictions, useNurses, useOverviewReadings } from "@/lib/queries";
+import { fmtTime, isStale, useStore, WARDS, type NotificationItem } from "@/lib/store";
+import "@/components/wecare-overview.css";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({
-    meta: [
-      { title: "Supervisor Overview — Nurse Care Monitor" },
-      { name: "description", content: "Intelligent nurse monitoring and workforce coordination dashboard." },
-      { property: "og:title", content: "Supervisor Overview — Nurse Care Monitor" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:description", content: "Spot nurse strain early. Support teams sooner." },
-    ],
-  }),
-  component: () => (
-    <AppShell title="Supervisor Overview">
-      <Dashboard />
-    </AppShell>
-  ),
+  head: () => ({ meta: [{ title: "Overview — NurseCare Monitor" }, { name: "description", content: "Nurse monitoring and staff coordination." }] }),
+  component: () => <AppShell title="Overview"><Dashboard /></AppShell>,
 });
 
-// Physiological context for each demonstration nurse
-const ACTIVITY_CONTEXT: Record<
-  string,
-  {
-    role: string;
-    shift: string;
-    hr: number;
-    eda: string;
-    context: string;
-    device: "online" | "replay" | "offline";
-    lastSeen: string;
-    sparkline: number[];
-  }
-> = {
-  "N-001": {
-    role: "Senior Staff Nurse",
-    shift: "Morning (07:00–15:30)",
-    hr: 98,
-    eda: "3.4 µS (+42%)",
-    context: "Trauma ICU intake, prolonged high exertion",
-    device: "online",
-    lastSeen: "Just now",
-    sparkline: [78, 82, 85, 91, 95, 98],
-  },
-  "N-002": {
-    role: "Clinical Specialist",
-    shift: "Morning (07:00–15:30)",
-    hr: 72,
-    eda: "1.2 µS (baseline)",
-    context: "Triage assessment, stable physiological state",
-    device: "online",
-    lastSeen: "12s ago",
-    sparkline: [70, 71, 73, 72, 74, 72],
-  },
-  "N-003": {
-    role: "Staff Nurse",
-    shift: "Day (08:00–16:30)",
-    hr: 70,
-    eda: "1.1 µS (baseline)",
-    context: "Pediatric ward rounds, steady vitals",
-    device: "online",
-    lastSeen: "28s ago",
-    sparkline: [68, 69, 71, 70, 70, 70],
-  },
-  "N-004": {
-    role: "Registered Nurse",
-    shift: "Morning (07:00–15:30)",
-    hr: 84,
-    eda: "2.1 µS (+15%)",
-    context: "Post-op medication round, moderate cognitive load",
-    device: "online",
-    lastSeen: "45s ago",
-    sparkline: [74, 76, 80, 82, 81, 84],
-  },
-  "N-005": {
-    role: "Night Charge Nurse",
-    shift: "Night (23:00–07:30)",
-    hr: 64,
-    eda: "0.9 µS (baseline)",
-    context: "Shift handover completed, device resting in dock",
-    device: "offline",
-    lastSeen: "42m ago",
-    sparkline: [66, 65, 64, 64, 63, 64],
-  },
+type Status = "normal" | "moderate" | "high" | "unknown";
+const labels: Record<Status, string> = { normal: "Normal estimate", moderate: "Moderate strain", high: "Elevated strain", unknown: "No current estimate" };
+// Existing original demonstration values. Never used for authenticated live records.
+const sample: Record<string, { hr: number; eda: string; trend: number[]; last: string; role: string; context: string }> = {
+  "N-001": {hr:98,eda:"3.4 µS (+42%)",trend:[78,82,85,91,95,98],last:"Just now",role:"Senior Staff Nurse",context:"Trauma ICU intake, prolonged high exertion"},
+  "N-002": {hr:72,eda:"1.2 µS (baseline)",trend:[70,71,73,72,74,72],last:"12s ago",role:"Clinical Specialist",context:"Triage assessment, stable physiological state"},
+  "N-003": {hr:70,eda:"1.1 µS (baseline)",trend:[68,69,71,70,70,70],last:"28s ago",role:"Staff Nurse",context:"Pediatric ward rounds, steady vitals"},
+  "N-004": {hr:84,eda:"2.1 µS (+15%)",trend:[74,76,80,82,81,84],last:"45s ago",role:"Registered Nurse",context:"Post-op medication round, moderate cognitive load"},
+  "N-005": {hr:64,eda:"0.9 µS (baseline)",trend:[66,65,64,64,63,64],last:"42m ago",role:"Night Charge Nurse",context:"Shift handover completed, device resting in dock"},
 };
-
-function MiniSparkline({ data, alert }: { data: number[]; alert?: boolean }) {
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const range = max - min || 1;
-  const height = 18;
-  const width = 56;
-  const points = data
-    .map((val, i) => {
-      const x = (i / (data.length - 1)) * width;
-      const y = height - ((val - min) / range) * (height - 4) - 2;
-      return `${x},${y}`;
-    })
-    .join(" ");
-
-  return (
-    <svg width={width} height={height} className="overflow-visible inline-block">
-      <polyline
-        fill="none"
-        stroke={alert ? "#C24152" : "#244D45"}
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        points={points}
-      />
-    </svg>
-  );
+const supportStaff = [
+  {code:"SUP-01", name:"Dr. Anika Rahman", ward:"All inpatient", role:"Supervisor"},
+  {code:"SUP-02", name:"Dr. Tariq Hasan", ward:"Emergency", role:"Supervisor"},
+  {code:"FLT-01", name:"Staff Nurse Kabir", ward:"Central Wing", role:"Float relief"},
+  {code:"FLT-02", name:"Staff Nurse Nasreen", ward:"Surgery & ICU", role:"Float relief"},
+];
+const categories: {value:NotificationItem["category"];label:string;message:string}[] = [
+  {value:"check_in", label:"Private check-in", message:"Hello, please let us know how your shift is going and whether you need any assistance."},
+  {value:"assistance", label:"Request assistance", message:"Assistance has been requested in your ward. Please confirm whether you are available."},
+  {value:"break_coverage", label:"Break coordination", message:"Please confirm your availability for supervisor-approved break coverage."},
+  {value:"supervisor_msg", label:"Direct message", message:"Please contact your supervisor when convenient."},
+  {value:"announcement", label:"Ward announcement", message:""},
+];
+function initials(name:string) {return name.replace(/^Demo Nurse /, "").split(/\s+/).filter(Boolean).map(x=>x[0]).slice(-2).join("").toUpperCase();}
+function Spark({values,status}:{values:number[];status:Status}) {
+  if(values.length<2) return null;
+  const min=Math.min(...values)-2,max=Math.max(...values)+2;
+  const points=values.map((v,i)=>`${2+i*64/(values.length-1)},${22-(v-min)*20/(max-min)}`).join(" ");
+  return <svg className={`wc-spark ${status}`} width="68" height="26" viewBox="0 0 68 26" role="img" aria-label="Recent heart rate trend"><polyline points={points} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 }
+function StatusPill({status}:{status:Status}) {return <span className={`wc-status ${status}`}><i/>{labels[status]}</span>;}
 
 export function Dashboard() {
-  const t = useT();
-  const navigate = useNavigate();
-  const { user, activeWard, setActiveWard, notifications, addNotification, supportRequests } = useStore();
-  const nurses = useNurses();
-  const preds = useLatestPredictions();
-
-  // Filters & selection
-  const [selectedCodes, setSelectedCodes] = useState<Set<string>>(new Set());
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-
-  // Notification Drawer state
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [messageText, setMessageText] = useState("");
-  const [notifCategory, setNotifCategory] = useState<"check_in" | "assistance" | "break_coverage" | "announcement" | "supervisor_msg">("check_in");
-
-  if (nurses.isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <div className="flex items-center gap-2.5 text-xs font-semibold text-[#64766E]">
-          <RefreshCw className="h-4 w-4 animate-spin text-[#244D45]" />
-          Loading clinical overview…
-        </div>
-      </div>
-    );
-  }
-
-  const allNurses = (nurses.data ?? []).filter((n) => n.is_active);
-  const rows = allNurses.map((n) => ({
-    n,
-    p: preds.data?.get(n.id) || preds.data?.get(n.nurse_code),
-    meta: ACTIVITY_CONTEXT[n.nurse_code] || {
-      role: "Staff Nurse",
-      shift: "Day Shift",
-      hr: 74,
-      eda: "1.0 µS",
-      context: "Standard clinical care",
-      device: "online" as const,
-      lastSeen: "Just now",
-      sparkline: [70, 72, 73, 74, 75, 74],
-    },
-  }));
-
-  const filtered = rows.filter(({ n, p }) => {
-    const matchesWard = activeWard === "all" || n.ward === activeWard;
-    const matchesStatus =
-      statusFilter === "all" ||
-      (statusFilter === "high" && p?.stress_level === "high") ||
-      (statusFilter === "moderate" && p?.stress_level === "moderate") ||
-      (statusFilter === "normal" && p?.stress_level === "normal") ||
-      (statusFilter === "offline" && ACTIVITY_CONTEXT[n.nurse_code]?.device === "offline");
-    const matchesSearch =
-      search === "" ||
-      n.full_name.toLowerCase().includes(search.toLowerCase()) ||
-      n.nurse_code.toLowerCase().includes(search.toLowerCase()) ||
-      (n.ward || "").toLowerCase().includes(search.toLowerCase());
-    return matchesWard && matchesStatus && matchesSearch;
+  const {user,isDemoMode,activeWard,setActiveWard,notifications,addNotification,supportRequests}=useStore();
+  const nurses=useNurses(); const preds=useLatestPredictions();
+  const [search,setSearch]=useState(""); const [filter,setFilter]=useState<Status|"all">("all");
+  const [selected,setSelected]=useState<Set<string>>(new Set()); const [expanded,setExpanded]=useState<string|null>(null);
+  const [drawer,setDrawer]=useState(false); const [recipientSearch,setRecipientSearch]=useState("");
+  const [category,setCategory]=useState<NotificationItem["category"]>("check_in"); const [message,setMessage]=useState("");
+  const [subject,setSubject]=useState(""); const [requiresAck,setRequiresAck]=useState(true);
+  const [priority,setPriority]=useState<"normal"|"urgent">("normal");
+  const demo=Boolean(isDemoMode||user?.isDemo);
+  const fallbackIds=new Set(FALLBACK_NURSES.map(n=>n.id));
+  const liveNurses=(nurses.data??[]).filter(n=>!fallbackIds.has(n.id));
+  const sourceNurses=demo?FALLBACK_NURSES:liveNurses;
+  const active=sourceNurses.filter(n=>n.is_active);
+  const readings=useOverviewReadings(demo?[]:active.map(n=>n.id));
+  const demoPreds=new Map(FALLBACK_PREDICTIONS.map(p=>[p.nurse_id,p]));
+  const rows=active.map(n=>{
+    const p=demo?demoPreds.get(n.id):preds.data?.get(n.id);
+    const records=readings.data?.get(n.id)??[];
+    const latest=records[0]; const s=demo?sample[n.nurse_code]:undefined;
+    const stale=Boolean(!p||(!demo&&isStale(p.created_at)));
+    const status:Status=p&&!stale&&p.api_status==="ok"?p.stress_level:"unknown";
+    const current=demo?Boolean(s&&n.nurse_code!=="N-005"):Boolean(latest&&!isStale(latest.recorded_at));
+    const hr=demo?(current?s?.hr:undefined):latest?.heart_rate;
+    const trend=demo?(current?s?.trend??[]:[]):records.map(r=>r.heart_rate).filter((v):v is number=>v!=null&&Number.isFinite(v)).reverse();
+    return {n,p,status,current,hr,trend,latest,s};
   });
-
-  const onDutyCount = rows.length;
-  const activeMonitoredCount = rows.filter((r) => r.meta.device === "online").length;
-  const elevatedStrainCount = rows.filter((r) => r.p?.stress_level === "high").length;
-  const moderateStrainCount = rows.filter((r) => r.p?.stress_level === "moderate").length;
-  const pendingRequestsCount = supportRequests.filter((s) => s.status === "pending").length;
-
-  const toggleSelect = (code: string) => {
-    setSelectedCodes((prev) => {
-      const next = new Set(prev);
-      if (next.has(code)) next.delete(code);
-      else next.add(code);
-      return next;
-    });
+  const wardRows=rows.filter(r=>activeWard==="all"||r.n.ward===activeWard);
+  const filtered=wardRows.filter(r=>(filter==="all"||filter===r.status)&&[r.n.full_name,r.n.nurse_code,r.n.ward??""].some(x=>x.toLowerCase().includes(search.toLowerCase().trim())));
+  const counts={normal:wardRows.filter(r=>r.status==="normal").length,moderate:wardRows.filter(r=>r.status==="moderate").length,high:wardRows.filter(r=>r.status==="high").length,unknown:wardRows.filter(r=>r.status==="unknown").length};
+  const pending=demo?supportRequests.filter(r=>r.status==="pending"&&(activeWard==="all"||r.ward===activeWard)):[];
+  const recent=demo?notifications.slice(0,3):[];
+  const availableRecipients=[...rows.map(r=>({code:r.n.nurse_code,name:r.n.full_name,ward:r.n.ward??"Unassigned",role:"Nurse"})),...(demo?supportStaff:[])];
+  const recipients=availableRecipients.filter(r=>selected.has(r.code));
+  const chosen=new Set(recipients.map(r=>r.code));
+  const allSelected=filtered.length>0&&filtered.every(r=>chosen.has(r.n.nurse_code));
+  const toggle=(code:string)=>setSelected(prev=>{const next=new Set(prev);next.has(code)?next.delete(code):next.add(code);return next;});
+  const toggleAll=()=>setSelected(prev=>{const next=new Set(prev);filtered.forEach(r=>allSelected?next.delete(r.n.nurse_code):next.add(r.n.nurse_code));return next;});
+  const open=(codes?:string[])=>{if(codes)setSelected(new Set(codes));setRecipientSearch("");setDrawer(true);};
+  const submit=(e:FormEvent)=>{e.preventDefault(); if(!demo){toast.info("Phone delivery is not connected. This is a preview only.");return;} if(!recipients.length||!message.trim())return;
+    addNotification({recipients:recipients.map(r=>r.name),category,priority,subject:subject.trim()||categories.find(c=>c.value===category)?.label||"NurseCare Monitor message",message:message.trim(),requiresAck});
+    toast.success("Demo notification recorded",{description:"Saved to the local session only. No phone message was sent."});setDrawer(false);setMessage("");setSubject("");setSelected(new Set());
   };
+  const refresh=()=>{void nurses.refetch();void preds.refetch();if(!demo&&active.length)void readings.refetch();};
+  const metrics: {key:Status|"all";label:string;value:number;sub:string}[]=[{key:"all",label:"Active nurse profiles",value:wardRows.length,sub:`${wardRows.filter(r=>r.current).length} ${demo?"sample":"recent"} sensor feeds`},{key:"normal",label:"Normal estimate",value:counts.normal,sub:"Latest model output"},{key:"moderate",label:"Moderate strain",value:counts.moderate,sub:"Latest model output"},{key:"high",label:"Elevated strain",value:counts.high,sub:"Consider a check-in"},{key:"unknown",label:"Unknown / stale",value:counts.unknown,sub:"No current estimate"}];
+  return <div className="wc-overview">
+    <header className="wc-heading"><div><div className="wc-kicker"><span className="wc-kicker-mark"><BrandLogo compact /></span> CARE TEAM <span className="wc-kicker-sep">/</span> OVERVIEW</div><h1>Care, in focus<span>.</span></h1><p>Monitor your nursing team and coordinate timely assistance, all in one place.</p></div><div className="wc-heading-actions"><button className="wc-btn wc-secondary" onClick={refresh} aria-label="Refresh data"><RefreshCw size={16} className={nurses.isFetching||preds.isFetching?"wc-spin":""}/> Refresh</button><button className="wc-btn wc-primary" onClick={()=>open()}><Send size={16}/> New notification</button></div></header>
+    <div className="wc-mode"><div><span className="wc-mode-dot"/><strong>{demo?"Demonstration workspace":"Authenticated workspace"}</strong><span className="wc-mode-text">{demo?"Original sample nurse profiles and illustrative sensor readings. Not live hardware.":"Database records only. Monitoring and mobile delivery are not clinically validated."}</span></div><Link to="/simulation">{demo?"Open simulation":"View simulation"}<ArrowRight size={15}/></Link></div>
+    {!demo&&nurses.data?.some(n=>fallbackIds.has(n.id))&&<div className="wc-warning"><Info size={17}/> The roster query returned demo fallback data. It is hidden in this authenticated view.</div>}
+    <section className="wc-summary" aria-label="Monitoring overview"><div className="wc-summary-top"><div><span className="wc-eyebrow">TEAM SNAPSHOT</span><h2>{activeWard==="all"?"All wards":activeWard}</h2></div><div className="wc-summary-caption"><span className="wc-small-dot"/> {demo?"Sample estimates":"Latest available estimates"}</div></div><div className="wc-metrics">{metrics.map(m=><button key={m.key} type="button" aria-pressed={filter===m.key} onClick={()=>setFilter(filter===m.key?"all":m.key)} className={`wc-metric ${m.key} ${filter===m.key?"is-active":""}`}><span className="wc-metric-label">{m.key!=="all"&&<i/>}{m.label}</span><strong>{m.value.toString().padStart(2,"0")}</strong><span className="wc-metric-sub">{m.sub}</span></button>)}</div><div className="wc-distribution" aria-label={`Distribution: ${counts.normal} normal, ${counts.moderate} moderate, ${counts.high} elevated, ${counts.unknown} unknown`}>{(["normal","moderate","high","unknown"] as const).map(s=>counts[s]>0?<span key={s} className={s} style={{flex:counts[s]}}/>:null)}{wardRows.length===0&&<span className="unknown" style={{flex:1}}/>}</div></section>
+    <div className="wc-workspace"><section className="wc-roster"><div className="wc-section-header"><div><span className="wc-eyebrow">01 / MONITOR</span><h2>Nurse monitoring <span className="wc-count">{filtered.length}</span></h2><p>Select staff to compose a check-in or assistance notification.</p></div><Link className="wc-text-link" to="/nurses">Directory <ChevronRight size={16}/></Link></div>
+      <div className="wc-toolbar"><label className="wc-search"><Search size={17}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search name or ID" aria-label="Search nurses"/>{search&&<button aria-label="Clear search" onClick={()=>setSearch("")}><X size={14}/></button>}</label><label className="wc-select"><select aria-label="Filter by ward" value={activeWard} onChange={e=>setActiveWard(e.target.value)}><option value="all">All wards</option>{WARDS.map(w=><option key={w}>{w}</option>)}</select><ChevronDown size={15}/></label><label className="wc-select"><select aria-label="Filter by strain status" value={filter} onChange={e=>setFilter(e.target.value as Status|"all")}><option value="all">All estimates</option>{Object.entries(labels).map(([key,value])=><option value={key} key={key}>{value}</option>)}</select><ChevronDown size={15}/></label></div>
+      {recipients.length>0&&<div className="wc-selection"><span><Check size={15}/> {recipients.length} selected</span><div><button onClick={()=>setSelected(new Set())}>Clear</button><button className="wc-btn wc-primary" onClick={()=>open()}>Notify selected <ArrowRight size={15}/></button></div></div>}
+      <div className="wc-table-scroll"><table className="wc-table"><thead><tr><th className="wc-check-cell"><input type="checkbox" checked={allSelected} onChange={toggleAll} aria-label="Select all visible nurses"/></th><th>Nurse / ward</th><th>AI estimate</th><th>Heart rate</th><th>Data source</th><th><span className="wc-sr-only">Actions</span></th></tr></thead><tbody>
+      {!demo&&nurses.isLoading?<tr><td colSpan={6}><BrandLoading /></td></tr>:filtered.length===0?<tr><td colSpan={6}><div className="wc-empty"><Users size={24}/><strong>No matching nurses</strong><span>Change your filters or review the nurse directory.</span></div></td></tr>:filtered.map(r=><RosterRow key={r.n.id} row={r} selected={chosen.has(r.n.nurse_code)} expanded={expanded===r.n.id} toggle={()=>toggle(r.n.nurse_code)} expand={()=>setExpanded(expanded===r.n.id?null:r.n.id)} notify={()=>open([r.n.nurse_code])} demo={demo}/>)}</tbody></table></div>
+      <footer className="wc-table-footer"><span>{filtered.length} of {wardRows.length} active profiles</span><span><ShieldCheck size={15}/> {demo?"Illustrative estimates":"Estimates, not diagnoses"}</span></footer></section>
+      <aside className="wc-side"><section className="wc-attention"><div className="wc-section-header"><div><span className="wc-eyebrow">02 / REVIEW</span><h2>Needs attention</h2></div><div className="wc-attention-icon"><HeartHandshake size={21}/></div></div><p className="wc-side-intro">Review elevated estimates separately from confirmed support requests.</p><div className="wc-attention-list">{wardRows.filter(r=>r.status==="high").map(r=><div className="wc-attention-row" key={r.n.id}><span className="wc-attention-avatar">{initials(r.n.full_name)}</span><div><strong>{r.n.full_name}</strong><small>{r.n.ward??"Unassigned"} · Elevated estimate</small></div><button className="wc-icon-btn" aria-label={`Compose check-in for ${r.n.full_name}`} onClick={()=>{setCategory("check_in");setMessage(categories[0].message);open([r.n.nurse_code]);}}><MessageSquare size={17}/></button></div>)}{counts.high===0&&<p className="wc-muted">No current elevated estimates.</p>}</div><div className="wc-side-divider"/><div className="wc-side-sub"><span>Pending support</span><strong>{demo?pending.length:"—"}</strong></div>{demo?pending.slice(0,3).map(r=><Link to="/support" className="wc-support-row" key={r.id}><div><strong>{r.nurseName}</strong><small>{r.type.replaceAll("_"," ")} · {r.ward}</small></div><ChevronRight size={15}/></Link>):<p className="wc-muted">Live support service is not connected.</p>}<Link to="/support" className="wc-side-link">Support workflow <ArrowRight size={16}/></Link></section>
+      <section className="wc-activity"><div className="wc-section-header"><div><span className="wc-eyebrow">03 / COORDINATE</span><h2>Recent messages</h2></div><Bell size={19}/></div><p className="wc-side-intro">{demo?"Local demo history · no actual delivery":"Phone delivery is not configured"}</p>{recent.map(n=><div key={n.id} className="wc-message-row"><span className="wc-message-icon"><MessageSquare size={15}/></span><div><strong>{n.subject}</strong><small>{n.recipients.join(", ")}</small><span className="wc-local-label">Demo · {n.status}</span></div></div>)}<Link to="/notifications" className="wc-side-link">Message history <ArrowRight size={16}/></Link></section></aside></div>
+    <footer className="wc-bottom"><span><ShieldCheck size={16}/> Human judgment, always. NurseCare Monitor is not an emergency monitor.</span><Link to="/ai-devices">Model & device information <ArrowRight size={14}/></Link></footer>
+    <Sheet open={drawer} onOpenChange={setDrawer}><SheetContent side="right" className="wc-sheet"><div className="wc-sheet-inner"><SheetHeader className="wc-sheet-header"><div className="wc-sheet-icon"><Send size={22}/></div><SheetTitle className="wc-sheet-title">New notification</SheetTitle><SheetDescription className="wc-sheet-desc">Choose recipients, write a message and preview their mobile experience. {demo?"Demo only — no phone delivery.":"Live phone delivery is not connected."}</SheetDescription></SheetHeader>
+      <form id="wc-compose" onSubmit={submit} className="wc-compose"><div className="wc-field-heading"><label htmlFor="wc-recipient-search">Recipients</label><span>{recipients.length} selected</span></div><label className="wc-search"><Search size={16}/><input id="wc-recipient-search" value={recipientSearch} onChange={e=>setRecipientSearch(e.target.value)} placeholder="Find nurses or staff"/></label><div className="wc-recipients">{availableRecipients.filter(r=>`${r.name} ${r.ward} ${r.role}`.toLowerCase().includes(recipientSearch.toLowerCase())).map(r=><label key={r.code} className={`wc-recipient ${chosen.has(r.code)?"chosen":""}`}><input type="checkbox" checked={chosen.has(r.code)} onChange={()=>toggle(r.code)}/><span className="wc-mini-avatar">{initials(r.name)}</span><span><strong>{r.name}</strong><small>{r.role} · {r.ward}</small></span></label>)}</div>
+      <label className="wc-field">Category<select value={category} onChange={e=>setCategory(e.target.value as NotificationItem["category"])}>{categories.map(c=><option key={c.value} value={c.value}>{c.label}</option>)}</select></label><div className="wc-templates">{categories.slice(0,3).map(c=><button key={c.value} type="button" onClick={()=>{setCategory(c.value);setMessage(c.message);}}>{c.label}</button>)}</div><label className="wc-field">Subject<input value={subject} onChange={e=>setSubject(e.target.value)} maxLength={80} placeholder="Optional subject"/></label><label className="wc-field">Message<textarea value={message} onChange={e=>setMessage(e.target.value)} rows={4} maxLength={300} placeholder="Write a clear, supportive message…"/><small>{message.length}/300</small></label><label className="wc-field">Priority<select value={priority} onChange={e=>setPriority(e.target.value as "normal"|"urgent")}><option value="normal">Normal</option><option value="urgent">Time-sensitive (not emergency)</option></select></label><label className="wc-ack"><input type="checkbox" checked={requiresAck} onChange={e=>setRequiresAck(e.target.checked)}/> Request acknowledgment</label>
+      <div className="wc-phone"><div className="wc-phone-caption"><Smartphone size={16}/> MOBILE PREVIEW <span>Illustrative</span></div><div className="wc-phone-notification"><div><span className="wc-phone-logo"><BrandLogo compact /></span><strong>NurseCare Monitor</strong><small>Preview</small></div><b>{subject||categories.find(c=>c.value===category)?.label}</b><p>{message||"Your message will appear here."}</p>{requiresAck&&<span className="wc-phone-ack">Acknowledge</span>}</div></div></form></div><div className="wc-sheet-footer"><button type="button" className="wc-btn wc-secondary" onClick={()=>setDrawer(false)}>Cancel</button><button type="submit" form="wc-compose" className="wc-btn wc-primary" disabled={!demo||!recipients.length||!message.trim()}><Send size={16}/>{demo?"Record demo message":"Delivery not connected"}</button></div></SheetContent></Sheet>
+  </div>;
+}
 
-  const toggleSelectAll = () => {
-    if (selectedCodes.size === filtered.length && filtered.length > 0) {
-      setSelectedCodes(new Set());
-    } else {
-      setSelectedCodes(new Set(filtered.map((r) => r.n.nurse_code)));
-    }
-  };
-
-  const openDrawerForNurses = (codes: string[], templateText?: string) => {
-    setSelectedCodes(new Set(codes));
-    if (templateText) setMessageText(templateText);
-    setDrawerOpen(true);
-  };
-
-  const handleSendNotification = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (selectedCodes.size === 0) {
-      toast.error("Please select at least one recipient.");
-      return;
-    }
-    if (!messageText.trim()) {
-      toast.error("Please write a notification message.");
-      return;
-    }
-
-    const recipientNames = rows
-      .filter((r) => selectedCodes.has(r.n.nurse_code))
-      .map((r) => r.n.full_name);
-
-    addNotification({
-      recipients: recipientNames,
-      category: notifCategory,
-      priority: notifCategory === "check_in" ? "urgent" : "normal",
-      subject: notifCategory === "check_in" ? "Supervisor Check-in Request" : "Team Notification",
-      message: messageText.trim(),
-      requiresAck: true,
-    });
-
-    toast.success(`Notification sent to ${recipientNames.length} recipient${recipientNames.length > 1 ? "s" : ""}.`, {
-      description: "Delivered to mobile companion apps.",
-    });
-
-    setMessageText("");
-    setDrawerOpen(false);
-  };
-
-  return (
-    <div className="space-y-6">
-      {/* 1. Compact Shift Overview & Personalized Greeting */}
-      <section className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] px-4 py-3.5 shadow-xs">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-base font-semibold text-[#192C28]">
-              Good morning, {user?.full_name?.split(" ")[0] || "Dr. Rahman"}
-            </h1>
-            <span className="inline-flex items-center rounded-full bg-[#E6EFEA] px-2 py-0.5 text-[11px] font-medium text-[#244D45]">
-              Active Shift
-            </span>
-          </div>
-          <p className="mt-0.5 text-xs text-[#64766E]">
-            Morning Shift (07:00–15:30) • Central Inpatient Wing • {activeMonitoredCount} wearable devices connected
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {elevatedStrainCount > 0 && (
-            <button
-              onClick={() => {
-                const elevatedCodes = rows
-                  .filter((r) => r.p?.stress_level === "high")
-                  .map((r) => r.n.nurse_code);
-                openDrawerForNurses(
-                  elevatedCodes,
-                  "Supervisor check-in: We noticed prolonged elevated physiological exertion. Would you like temporary relief coverage?"
-                );
-              }}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[#FDE8EA] px-3 py-1.5 text-xs font-medium text-[#C24152] hover:bg-[#FCD2D6] transition-colors"
-            >
-              <AlertTriangle className="h-3.5 w-3.5" />
-              <span>{elevatedStrainCount} Nurse Needs Attention</span>
-            </button>
-          )}
-
-          <Link
-            to="/simulation"
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-3 py-1.5 text-xs font-medium text-[#192C28] hover:bg-[#F7F8F5] transition-colors"
-          >
-            <Activity className="h-3.5 w-3.5 text-[#244D45]" />
-            <span>AI Simulation</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* 2. Focused Monitoring Statistics Row */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {/* On Duty */}
-        <button
-          onClick={() => setStatusFilter("all")}
-          className={cn(
-            "rounded-lg border bg-[#FFFFFF] p-3.5 text-left transition-colors",
-            statusFilter === "all" ? "border-[#244D45] ring-1 ring-[#244D45]" : "border-[#E1E6E1] hover:border-[#C6E2D6]"
-          )}
-        >
-          <div className="text-[11px] font-medium text-[#64766E]">On Duty</div>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-2xl font-semibold text-[#192C28] font-mono tabular-nums">{onDutyCount}</span>
-            <span className="text-[11px] text-[#64766E]">nurses</span>
-          </div>
-          <div className="mt-1 text-[11px] text-[#64766E]">{activeMonitoredCount} active telemetry</div>
-        </button>
-
-        {/* Normal Baseline */}
-        <button
-          onClick={() => setStatusFilter("normal")}
-          className={cn(
-            "rounded-lg border bg-[#FFFFFF] p-3.5 text-left transition-colors",
-            statusFilter === "normal" ? "border-[#244D45] ring-1 ring-[#244D45]" : "border-[#E1E6E1] hover:border-[#C6E2D6]"
-          )}
-        >
-          <div className="text-[11px] font-medium text-[#244D45] flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#244D45]" />
-            <span>Normal Range</span>
-          </div>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-2xl font-semibold text-[#244D45] font-mono tabular-nums">
-              {rows.filter((r) => r.p?.stress_level === "normal" || (!r.p?.stress_level && r.meta.device === "online")).length}
-            </span>
-            <span className="text-[11px] text-[#64766E]">stable</span>
-          </div>
-          <div className="mt-1 text-[11px] text-[#64766E]">Within baseline physiological thresholds</div>
-        </button>
-
-        {/* Moderate Strain */}
-        <button
-          onClick={() => setStatusFilter("moderate")}
-          className={cn(
-            "rounded-lg border bg-[#FFFFFF] p-3.5 text-left transition-colors",
-            statusFilter === "moderate" ? "border-[#B7791F] ring-1 ring-[#B7791F]" : "border-[#E1E6E1] hover:border-[#B7791F]"
-          )}
-        >
-          <div className="text-[11px] font-medium text-[#B7791F] flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#B7791F]" />
-            <span>Moderate Exertion</span>
-          </div>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-2xl font-semibold text-[#B7791F] font-mono tabular-nums">{moderateStrainCount}</span>
-            <span className="text-[11px] text-[#64766E]">monitored</span>
-          </div>
-          <div className="mt-1 text-[11px] text-[#64766E]">Elevated task pace, within tolerance</div>
-        </button>
-
-        {/* Elevated Strain */}
-        <button
-          onClick={() => setStatusFilter("high")}
-          className={cn(
-            "rounded-lg border bg-[#FFFFFF] p-3.5 text-left transition-colors",
-            statusFilter === "high" ? "border-[#C24152] ring-1 ring-[#C24152]" : "border-[#E1E6E1] hover:border-[#C24152]"
-          )}
-        >
-          <div className="text-[11px] font-medium text-[#C24152] flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C24152]" />
-            <span>Elevated Strain</span>
-          </div>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-2xl font-semibold text-[#C24152] font-mono tabular-nums">{elevatedStrainCount}</span>
-            <span className="text-[11px] text-[#C24152] font-medium">attention</span>
-          </div>
-          <div className="mt-1 text-[11px] text-[#64766E]">Recommend supervisor check-in</div>
-        </button>
-      </div>
-
-      {/* 3. Main Operational Workspace: Attio/Linear-style Nurse Monitoring Table */}
-      <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] shadow-xs overflow-hidden">
-        {/* Table Controls Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3.5 border-b border-[#E1E6E1]">
-          <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-[#192C28]">Nurse Monitoring Table</h2>
-            <span className="text-xs text-[#64766E]">({filtered.length} nurses)</span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            {/* Search */}
-            <div className="relative min-w-[200px]">
-              <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-[#64766E]" />
-              <Input
-                placeholder="Filter by name, ID or ward…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="h-7 pl-7 text-xs bg-[#FFFFFF] rounded-md border-[#E1E6E1] focus-visible:ring-1 focus-visible:ring-[#244D45]"
-              />
-            </div>
-
-            {/* Ward Selector */}
-            <select
-              value={activeWard}
-              onChange={(e) => setActiveWard(e.target.value)}
-              className="h-7 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-2 text-xs font-medium text-[#192C28] cursor-pointer outline-hidden"
-            >
-              <option value="all">All Wards</option>
-              {WARDS.map((w) => (
-                <option key={w} value={w}>
-                  {w} Ward
-                </option>
-              ))}
-            </select>
-
-            {/* Status Selector */}
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="h-7 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-2 text-xs font-medium text-[#192C28] cursor-pointer outline-hidden"
-            >
-              <option value="all">All Statuses</option>
-              <option value="high">Elevated Strain</option>
-              <option value="moderate">Moderate</option>
-              <option value="normal">Normal</option>
-              <option value="offline">Offline</option>
-            </select>
-
-            {/* Action Bar when Nurses are Selected */}
-            {selectedCodes.size > 0 ? (
-              <Button
-                size="sm"
-                onClick={() => setDrawerOpen(true)}
-                className="h-7 px-3 text-xs font-medium bg-[#244D45] text-white hover:bg-[#1b3d36]"
-              >
-                <MessageSquare className="h-3.5 w-3.5 mr-1.5" />
-                Notify Selected ({selectedCodes.size})
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => openDrawerForNurses(rows.map((r) => r.n.nurse_code))}
-                className="h-7 px-2.5 text-xs font-medium text-[#192C28] border-[#E1E6E1] hover:bg-[#F7F8F5]"
-              >
-                Notify Staff
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {/* Roster Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="border-b border-[#E1E6E1] bg-[#FAFBF9] text-[#64766E] font-medium">
-                <th className="py-2.5 px-3.5 w-8">
-                  <input
-                    type="checkbox"
-                    checked={selectedCodes.size === filtered.length && filtered.length > 0}
-                    onChange={toggleSelectAll}
-                    className="rounded border-[#D9DFD9] text-[#244D45] focus:ring-[#244D45]"
-                  />
-                </th>
-                <th className="py-2.5 px-3 font-medium">Nurse</th>
-                <th className="py-2.5 px-3 font-medium">Ward</th>
-                <th className="py-2.5 px-3 font-medium">Status</th>
-                <th className="py-2.5 px-3 font-medium">Heart Rate</th>
-                <th className="py-2.5 px-3 font-medium">Electrodermal (EDA)</th>
-                <th className="py-2.5 px-3 font-medium">Trend</th>
-                <th className="py-2.5 px-3 font-medium">Telemetry</th>
-                <th className="py-2.5 px-3 font-medium text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#E1E6E1]">
-              {filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={9} className="py-12 text-center text-xs text-[#64766E]">
-                    No nurses found matching the current filters.
-                  </td>
-                </tr>
-              ) : (
-                filtered.map(({ n, p, meta }) => {
-                  const isSelected = selectedCodes.has(n.nurse_code);
-                  const isHigh = p?.stress_level === "high";
-
-                  return (
-                    <tr
-                      key={n.id}
-                      className={cn(
-                        "transition-colors",
-                        isSelected ? "bg-[#EFF3F0]" : "hover:bg-[#FAFBF9]",
-                        isHigh && !isSelected ? "bg-[#FDE8EA]/30" : ""
-                      )}
-                    >
-                      <td className="py-3 px-3.5">
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={() => toggleSelect(n.nurse_code)}
-                          className="rounded border-[#D9DFD9] text-[#244D45] focus:ring-[#244D45]"
-                        />
-                      </td>
-
-                      {/* Nurse Column */}
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className={cn(
-                              "grid h-7 w-7 place-items-center rounded-full text-[11px] font-semibold shrink-0",
-                              isHigh ? "bg-[#FDE8EA] text-[#C24152]" : "bg-[#EFF3F0] text-[#244D45]"
-                            )}
-                          >
-                            {n.full_name
-                              .split(" ")
-                              .filter(Boolean)
-                              .map((x) => x[0])
-                              .slice(-2)
-                              .join("")}
-                          </div>
-                          <div>
-                            <Link
-                              to="/nurses/$id"
-                              params={{ id: n.id }}
-                              className="font-medium text-[#192C28] hover:text-[#244D45] hover:underline"
-                            >
-                              {n.full_name}
-                            </Link>
-                            <div className="text-[11px] text-[#64766E]">
-                              <span className="font-mono">{n.nurse_code}</span> • {meta.role}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Ward */}
-                      <td className="py-3 px-3">
-                        <span className="text-[#192C28] font-medium">{n.ward ?? "Unassigned"}</span>
-                      </td>
-
-                      {/* Strain Status */}
-                      <td className="py-3 px-3">
-                        <StressBadge level={p?.stress_level} stale={!!p && isStale(p.created_at)} />
-                      </td>
-
-                      {/* Heart Rate */}
-                      <td className="py-3 px-3">
-                        <div className="font-mono text-xs text-[#192C28] tabular-nums">
-                          {meta.device === "offline" ? (
-                            <span className="text-[#A5B2AC]">—</span>
-                          ) : (
-                            <>
-                              <span className="font-medium">{meta.hr}</span>{" "}
-                              <span className="text-[10px] text-[#64766E]">bpm</span>
-                            </>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* EDA */}
-                      <td className="py-3 px-3">
-                        <span className="font-mono text-[11px] text-[#64766E]">
-                          {meta.device === "offline" ? "—" : meta.eda}
-                        </span>
-                      </td>
-
-                      {/* Physiological Trend Sparkline */}
-                      <td className="py-3 px-3">
-                        {meta.device === "offline" ? (
-                          <span className="text-[10px] text-[#A5B2AC]">Docked</span>
-                        ) : (
-                          <MiniSparkline data={meta.sparkline} alert={isHigh} />
-                        )}
-                      </td>
-
-                      {/* Telemetry / Device */}
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-1.5 text-[11px]">
-                          {meta.device === "online" ? (
-                            <span className="inline-flex items-center gap-1 text-[#244D45]">
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#244D45]" />
-                              <span>Live ({meta.lastSeen})</span>
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 text-[#64766E]">
-                              <span className="h-1.5 w-1.5 rounded-full bg-[#A5B2AC]" />
-                              <span>Offline ({meta.lastSeen})</span>
-                            </span>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* Actions */}
-                      <td className="py-3 px-3 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <button
-                            onClick={() =>
-                              openDrawerForNurses(
-                                [n.nurse_code],
-                                `Hi ${n.full_name.split(" ")[0]}, supervisor checking in. How are things going in ${n.ward}?`
-                              )
-                            }
-                            className="rounded px-2 py-1 text-[11px] font-medium text-[#244D45] hover:bg-[#EFF3F0] transition-colors"
-                          >
-                            Notify
-                          </button>
-                          <Link
-                            to="/nurses/$id"
-                            params={{ id: n.id }}
-                            className="rounded px-2 py-1 text-[11px] font-medium text-[#64766E] hover:text-[#192C28] hover:bg-[#EFF3F0] transition-colors"
-                          >
-                            Details
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Table Footer */}
-        <div className="flex items-center justify-between border-t border-[#E1E6E1] px-4 py-2.5 text-xs text-[#64766E] bg-[#FAFBF9]">
-          <span>
-            Displaying {filtered.length} of {rows.length} nurses
-          </span>
-          {selectedCodes.size > 0 && (
-            <span className="text-[#244D45] font-medium">
-              {selectedCodes.size} nurse{selectedCodes.size === 1 ? "" : "s"} selected
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* 4. Compact Activity Timeline & Unresolved Support Needs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Unresolved Support & Assistance Requests */}
-        <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] p-4 shadow-xs">
-          <div className="flex items-center justify-between pb-2.5 border-b border-[#E1E6E1]">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#192C28]">
-              <HeartHandshake className="h-4 w-4 text-[#244D45]" />
-              <span>Unresolved Support & Coverage Needs</span>
-            </div>
-            <Link to="/support" className="text-[11px] font-medium text-[#244D45] hover:underline">
-              View all ({supportRequests.length})
-            </Link>
-          </div>
-
-          <div className="mt-3 divide-y divide-[#E1E6E1]">
-            {supportRequests.length === 0 ? (
-              <p className="py-4 text-xs text-[#64766E]">No active support requests.</p>
-            ) : (
-              supportRequests.slice(0, 3).map((sr) => (
-                <div key={sr.id} className="py-2.5 flex items-center justify-between gap-2">
-                  <div>
-                    <p className="text-xs font-medium text-[#192C28]">
-                      {sr.nurseName} • <span className="capitalize">{sr.type.replace("_", " ")}</span>
-                    </p>
-                    <p className="text-[11px] text-[#64766E]">{sr.notes || "Coverage assistance needed"}</p>
-                  </div>
-                  <Link
-                    to="/support"
-                    className="rounded-md border border-[#E1E6E1] px-2.5 py-1 text-[11px] font-medium text-[#192C28] hover:bg-[#F7F8F5]"
-                  >
-                    Resolve
-                  </Link>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* Recent Coordination Dispatch Timeline */}
-        <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] p-4 shadow-xs">
-          <div className="flex items-center justify-between pb-2.5 border-b border-[#E1E6E1]">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#192C28]">
-              <Clock className="h-4 w-4 text-[#244D45]" />
-              <span>Recent Dispatched Notifications</span>
-            </div>
-            <Link to="/notifications" className="text-[11px] font-medium text-[#244D45] hover:underline">
-              Full log ({notifications.length})
-            </Link>
-          </div>
-
-          <div className="mt-3 divide-y divide-[#E1E6E1]">
-            {notifications.slice(0, 3).map((n) => (
-              <div key={n.id} className="py-2.5 flex items-start gap-2.5 text-xs">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#244D45] shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-[#192C28] truncate">{n.recipients.join(", ")}</span>
-                    <span className="text-[10px] capitalize text-[#64766E]">{n.status}</span>
-                  </div>
-                  <p className="text-[11px] text-[#64766E] truncate mt-0.5">{n.message}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 5. Animated Slide-Out Notification Composer Drawer (Radix / Sheet) */}
-      <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-md bg-[#FFFFFF] border-l border-[#E1E6E1] p-6 flex flex-col justify-between">
-          <div>
-            <SheetHeader className="text-left pb-4 border-b border-[#E1E6E1]">
-              <SheetTitle className="text-base font-semibold text-[#192C28] flex items-center gap-2">
-                <MessageSquare className="h-4 w-4 text-[#244D45]" />
-                Send Staff Notification
-              </SheetTitle>
-              <SheetDescription className="text-xs text-[#64766E]">
-                Dispatches targeted alerts directly to nurse mobile companion phones.
-              </SheetDescription>
-            </SheetHeader>
-
-            <form id="drawer-notif-form" onSubmit={handleSendNotification} className="mt-5 space-y-4">
-              {/* Selected Staff */}
-              <div>
-                <label className="block text-xs font-medium text-[#192C28] mb-1.5">
-                  Recipients ({selectedCodes.size})
-                </label>
-                <div className="min-h-11 rounded-md border border-[#E1E6E1] bg-[#FAFBF9] p-2 text-xs">
-                  {selectedCodes.size === 0 ? (
-                    <span className="text-[#8A9A92] italic">
-                      No nurses selected. Choose from the roster or select all.
-                    </span>
-                  ) : (
-                    <div className="flex flex-wrap gap-1">
-                      {Array.from(selectedCodes).map((code) => {
-                        const nurseObj = rows.find((r) => r.n.nurse_code === code)?.n;
-                        return (
-                          <span
-                            key={code}
-                            className="inline-flex items-center gap-1 rounded bg-[#E6EFEA] px-2 py-0.5 text-xs font-medium text-[#244D45]"
-                          >
-                            <span>{nurseObj?.full_name?.split(" ")[0] || code}</span>
-                            <button
-                              type="button"
-                              onClick={() => toggleSelect(code)}
-                              className="text-[#244D45] hover:text-[#C24152]"
-                            >
-                              ×
-                            </button>
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Notification Category */}
-              <div>
-                <label className="block text-xs font-medium text-[#192C28] mb-1.5">
-                  Category & Intent
-                </label>
-                <select
-                  value={notifCategory}
-                  onChange={(e) => setNotifCategory(e.target.value as typeof notifCategory)}
-                  className="w-full h-8 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-2.5 text-xs text-[#192C28] outline-hidden cursor-pointer"
-                >
-                  <option value="check_in">Supervisor Check-in (Elevated Strain)</option>
-                  <option value="break_coverage">Break Coverage Coordination</option>
-                  <option value="assistance">Clinical Assistance Request</option>
-                  <option value="supervisor_msg">Direct Message</option>
-                  <option value="announcement">Ward Announcement</option>
-                </select>
-              </div>
-
-              {/* Quick Preset Templates */}
-              <div>
-                <span className="block text-[11px] font-medium text-[#64766E] mb-1">
-                  Preset Templates:
-                </span>
-                <div className="flex flex-wrap gap-1">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMessageText(
-                        "Hi, supervisor checking in. We noticed elevated exertion in your ward. How are you feeling?"
-                      )
-                    }
-                    className="rounded border border-[#E1E6E1] bg-[#FAFBF9] px-2 py-1 text-[11px] text-[#192C28] hover:border-[#244D45]"
-                  >
-                    Check In
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMessageText(
-                        "Your requested 15-minute break coverage has been approved and assigned."
-                      )
-                    }
-                    className="rounded border border-[#E1E6E1] bg-[#FAFBF9] px-2 py-1 text-[11px] text-[#192C28] hover:border-[#244D45]"
-                  >
-                    Break Approved
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMessageText(
-                        "Assistance requested in Room 304 for urgent patient repositioning."
-                      )
-                    }
-                    className="rounded border border-[#E1E6E1] bg-[#FAFBF9] px-2 py-1 text-[11px] text-[#192C28] hover:border-[#244D45]"
-                  >
-                    Ward Assistance
-                  </button>
-                </div>
-              </div>
-
-              {/* Message Input */}
-              <div>
-                <label htmlFor="drawer-msg" className="block text-xs font-medium text-[#192C28] mb-1.5">
-                  Message Body
-                </label>
-                <textarea
-                  id="drawer-msg"
-                  value={messageText}
-                  onChange={(e) => setMessageText(e.target.value)}
-                  maxLength={300}
-                  rows={4}
-                  placeholder="Type instructions or check-in request…"
-                  className="w-full rounded-md border border-[#E1E6E1] bg-[#FFFFFF] p-2.5 text-xs text-[#192C28] outline-hidden focus:border-[#244D45] focus:ring-1 focus:ring-[#244D45]"
-                />
-                <span className="text-[10px] text-[#8A9A92] block text-right">
-                  {messageText.length} / 300 characters
-                </span>
-              </div>
-            </form>
-
-            {/* Mobile Companion Phone Preview inside Drawer */}
-            <div className="mt-5 rounded-lg border border-[#E1E6E1] bg-[#FAFBF9] p-3">
-              <div className="flex items-center justify-between text-[10px] text-[#64766E] mb-2">
-                <span className="font-medium flex items-center gap-1">
-                  <Smartphone className="h-3 w-3 text-[#244D45]" /> Companion Notification Preview
-                </span>
-                <span>Android OS</span>
-              </div>
-              <div className="rounded-md border border-[#E1E6E1] bg-[#FFFFFF] p-2.5 shadow-2xs">
-                <div className="flex items-center justify-between text-[10px]">
-                  <span className="font-semibold text-[#244D45]">Nurse Care Monitor</span>
-                  <span className="text-[#8A9A92]">Now</span>
-                </div>
-                <p className="mt-1 text-xs font-medium text-[#192C28]">
-                  {notifCategory === "check_in" ? "Supervisor Check-in" : "Hospital Coordination"}
-                </p>
-                <p className="mt-0.5 text-[11px] text-[#64766E] leading-relaxed break-words">
-                  {messageText || "Please check in with your current availability and status."}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-[#E1E6E1] flex items-center justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setDrawerOpen(false)}
-              className="text-xs border-[#E1E6E1]"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              form="drawer-notif-form"
-              disabled={selectedCodes.size === 0 || !messageText.trim()}
-              className="bg-[#244D45] hover:bg-[#1b3d36] text-white text-xs font-medium"
-            >
-              <Send className="h-3.5 w-3.5 mr-1.5" />
-              Dispatch Notification
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-    </div>
-  );
+// Keep the row contract local; existing nurse details and original data pages are unchanged.
+function RosterRow({row,selected,expanded,toggle,expand,notify,demo}:{row:{n:{id:string;nurse_code:string;full_name:string;ward:string|null;device_code:string|null};p?:{confidence:number|null;created_at:string;model_version:string|null;api_status:string};status:Status;current:boolean;hr?:number|null;trend:number[];latest?:{recorded_at:string;source:string;temperature:number|null;accel_x:number|null;accel_y:number|null;accel_z:number|null};s?:typeof sample[string]};selected:boolean;expanded:boolean;toggle:()=>void;expand:()=>void;notify:()=>void;demo:boolean}) {
+  const {n,p,status,hr,trend,latest,s,current}=row;
+  return <><tr className={`${selected?"wc-row-selected":""} ${status==="high"?"wc-row-high":""}`}><td className="wc-check-cell"><input aria-label={`Select ${n.full_name}`} type="checkbox" checked={selected} onChange={toggle}/></td><td><div className="wc-person"><span className={`wc-avatar ${status}`}>{initials(n.full_name)}</span><div><Link to="/nurses/$id" params={{id:n.id}}>{n.full_name}</Link><small>{n.nurse_code} · {n.ward??"Unassigned"}</small></div></div></td><td><StatusPill status={status}/></td><td><div className="wc-hr">{hr!=null?<><strong>{Math.round(hr)}</strong><small> bpm</small></>:<span>—</span>}<Spark values={trend} status={status}/></div></td><td><div className="wc-data"><i className={current?"current":""}/><div><strong>{demo?(current?"Sample feed":"Sample offline"):latest?(current?latest.source:"Stale reading"):"No reading"}</strong><small>{demo?(s?.last??"—"):fmtTime(latest?.recorded_at)}</small></div></div></td><td><div className="wc-row-actions"><button className="wc-icon-btn" onClick={notify} title="Compose notification" aria-label={`Notify ${n.full_name}`}><MessageSquare size={18}/></button><button className="wc-icon-btn" onClick={expand} aria-expanded={expanded} aria-label={`Details for ${n.full_name}`}><ChevronDown size={17} className={expanded?"wc-rotated":""}/></button></div></td></tr>{expanded&&<tr className="wc-expanded"><td colSpan={6}><div className="wc-expanded-grid"><div><span>Prediction time</span><strong>{fmtTime(p?.created_at)}</strong></div><div><span>Model version</span><strong>{p?.model_version??"Unavailable"}</strong></div><div><span>Device assignment</span><strong>{n.device_code??"Not assigned"}</strong></div><div><span>Model score (uncalibrated)</span><strong>{p?.confidence!=null?`${Math.round(p.confidence*100)}%`:"Unavailable"}</strong></div>{demo&&s?<><div><span>Sample EDA</span><strong>{s.eda}</strong></div><div><span>Sample context</span><strong>{s.context}</strong></div></>:<><div><span>Temperature</span><strong>{latest?.temperature!=null?`${latest.temperature} °C`:"Unavailable"}</strong></div><div><span>Motion axes</span><strong>{latest&&[latest.accel_x,latest.accel_y,latest.accel_z].every(x=>x!=null)?[latest.accel_x,latest.accel_y,latest.accel_z].join(" / "):"Unavailable"}</strong></div></>}<Link className="wc-text-link" to="/nurses/$id" params={{id:n.id}}>Full nurse profile <ArrowRight size={15}/></Link></div></td></tr>}</>;
 }
 export default Dashboard;

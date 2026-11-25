@@ -24,9 +24,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/staff")({
   head: () => ({
     meta: [
-      { title: "Staff Directory & Hospital Workforce — Nurse Care Monitor" },
+      { title: "Staff Directory & Hospital Workforce — NurseCare Monitor" },
       { name: "description", content: "Unified hospital personnel directory for nurses, supervisors, and clinical support staff." },
-      { property: "og:title", content: "Staff Directory & Hospital Workforce — Nurse Care Monitor" },
+      { property: "og:title", content: "Staff Directory & Hospital Workforce — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -108,16 +108,16 @@ function StaffPage() {
       {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-base font-semibold text-[#192C28]">Hospital Staff & Workforce Directory</h1>
+          <h1 className="text-base font-semibold text-[#08242d]">Hospital Staff & Workforce Directory</h1>
           <p className="text-xs text-[#64766E] mt-0.5">
-            Directory of active nurses, clinical supervisors, and float personnel connected to Nurse Care Monitor.
+            Directory of active nurses, clinical supervisors, and float personnel connected to NurseCare Monitor.
           </p>
         </div>
 
         {selectedStaff.size > 0 && (
           <Button
             onClick={handleNotifySelected}
-            className="h-7 rounded-md bg-[#244D45] hover:bg-[#1b3d36] text-xs font-medium text-white shadow-xs"
+            className="h-7 rounded-md bg-[#005859] hover:bg-[#1b3d36] text-xs font-medium text-white shadow-xs"
           >
             <MessageSquare className="mr-1.5 h-3.5 w-3.5" />
             Notify Selected ({selectedStaff.size})
@@ -132,7 +132,7 @@ function StaffPage() {
           <div className="relative min-w-52 flex-1">
             <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-[#64766E]" />
             <Input
-              className="h-7 pl-7 text-xs bg-white rounded-md border-[#E1E6E1] focus-visible:ring-1 focus-visible:ring-[#244D45]"
+              className="h-7 pl-7 text-xs bg-white rounded-md border-[#E1E6E1] focus-visible:ring-1 focus-visible:ring-[#005859]"
               placeholder="Search by name, ID or code…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -142,7 +142,7 @@ function StaffPage() {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="h-7 rounded-md border border-[#E1E6E1] bg-white px-2 text-xs font-medium text-[#192C28] cursor-pointer outline-hidden"
+            className="h-7 rounded-md border border-[#E1E6E1] bg-white px-2 text-xs font-medium text-[#08242d] cursor-pointer outline-hidden"
           >
             <option value="all">All Roles</option>
             <option value="Nurse">Staff Nurses</option>
@@ -153,7 +153,7 @@ function StaffPage() {
           <select
             value={wardFilter}
             onChange={(e) => setWardFilter(e.target.value)}
-            className="h-7 rounded-md border border-[#E1E6E1] bg-white px-2 text-xs font-medium text-[#192C28] cursor-pointer outline-hidden"
+            className="h-7 rounded-md border border-[#E1E6E1] bg-white px-2 text-xs font-medium text-[#08242d] cursor-pointer outline-hidden"
           >
             <option value="all">All Wards</option>
             {WARDS.map((w) => (
@@ -177,7 +177,7 @@ function StaffPage() {
                       if (selectedStaff.size === filtered.length) setSelectedStaff(new Set());
                       else setSelectedStaff(new Set(filtered.map((s) => s.name)));
                     }}
-                    className="rounded border-[#D9DFD9] text-[#244D45] focus:ring-[#244D45]"
+                    className="rounded border-[#D9DFD9] text-[#005859] focus:ring-[#005859]"
                   />
                 </th>
                 <th className="py-2.5 px-3 font-medium">Code</th>
@@ -196,32 +196,32 @@ function StaffPage() {
                 return (
                   <tr
                     key={s.id}
-                    className={cn("transition-colors", isSelected ? "bg-[#EFF3F0]" : "hover:bg-[#FAFBF9]")}
+                    className={cn("transition-colors", isSelected ? "bg-[#edf5f4]" : "hover:bg-[#FAFBF9]")}
                   >
                     <td className="py-3 px-3.5">
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleSelect(s.name)}
-                        className="rounded border-[#D9DFD9] text-[#244D45] focus:ring-[#244D45]"
+                        className="rounded border-[#D9DFD9] text-[#005859] focus:ring-[#005859]"
                       />
                     </td>
                     <td className="py-3 px-3 font-mono text-xs text-[#64766E]">{s.code}</td>
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-2">
-                        <div className="grid h-6 w-6 place-items-center rounded-full bg-[#EFF3F0] text-[10px] font-semibold text-[#244D45]">
+                        <div className="grid h-6 w-6 place-items-center rounded-full bg-[#edf5f4] text-[10px] font-semibold text-[#005859]">
                           {s.name[0]}
                         </div>
-                        <span className="font-medium text-[#192C28]">{s.name}</span>
+                        <span className="font-medium text-[#08242d]">{s.name}</span>
                       </div>
                     </td>
                     <td className="py-3 px-3">
-                      <span className="text-[#192C28]">{s.role}</span>
+                      <span className="text-[#08242d]">{s.role}</span>
                     </td>
-                    <td className="py-3 px-3 text-[#192C28] font-medium">{s.ward}</td>
+                    <td className="py-3 px-3 text-[#08242d] font-medium">{s.ward}</td>
                     <td className="py-3 px-3 text-[#64766E]">{s.shift}</td>
                     <td className="py-3 px-3">
-                      <span className="inline-flex items-center gap-1 rounded bg-[#E6EFEA] px-2 py-0.5 text-[11px] font-medium text-[#244D45]">
+                      <span className="inline-flex items-center gap-1 rounded bg-[#e4f2f0] px-2 py-0.5 text-[11px] font-medium text-[#005859]">
                         <Smartphone className="h-3 w-3" /> Paired
                       </span>
                     </td>
@@ -231,7 +231,7 @@ function StaffPage() {
                           setSelectedStaff(new Set([s.name]));
                           handleNotifySelected();
                         }}
-                        className="rounded px-2 py-1 text-[11px] font-medium text-[#244D45] hover:bg-[#EFF3F0] transition-colors"
+                        className="rounded px-2 py-1 text-[11px] font-medium text-[#005859] hover:bg-[#edf5f4] transition-colors"
                       >
                         Message
                       </button>

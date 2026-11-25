@@ -1,0 +1,30 @@
+:root{--brand-ink:#08242d;--brand-teal:#005859;--brand-turquoise:#74d6ca;--brand-coral:#fe7452;--brand-amber:#f7a936}
+.brand-logo{display:inline-flex;align-items:center;flex-shrink:1;max-width:100%;width:180px;line-height:0}
+.brand-logo img{display:block;width:100%;height:auto;object-fit:contain}
+.brand-logo--sm{width:145px}.brand-logo--lg{width:280px}.brand-logo--compact{width:32px;min-width:24px}.brand-logo--compact.brand-logo--lg{width:48px}
+.brand-splash{display:none;position:fixed;inset:0;width:100vw;height:100dvh;z-index:90;background:var(--brand-ink);color:white;place-items:center;pointer-events:none;animation:brand-exit 360ms 1400ms ease-in-out both}
+html[data-ncm-intro] .brand-splash{display:grid}
+.brand-splash-content{width:min(92vw,650px);text-align:center;animation:brand-appear 200ms ease-out both}
+.animated-logo{display:block;width:clamp(112px,17vw,160px);height:auto;margin:0 auto 34px;overflow:visible}
+.brand-arc{stroke-dasharray:1;stroke-dashoffset:1;animation:brand-draw 420ms cubic-bezier(.22,.61,.36,1) both}
+.brand-arc--teal{animation-delay:200ms}.brand-arc--coral{animation-delay:280ms;animation-duration:350ms}.brand-arc--amber{animation-delay:350ms;animation-duration:350ms}
+.brand-heart{transform-origin:422px 363px;animation:brand-heart 350ms 550ms ease-out both}
+.brand-splash-wordmark{font-size:clamp(27px,5vw,46px);line-height:1.16;letter-spacing:-.045em;animation:brand-reveal 400ms 800ms both}
+.brand-splash-wordmark strong{font-weight:750}.brand-splash-wordmark span{color:var(--brand-turquoise);font-weight:400}
+.brand-splash-byline{margin-top:14px;font-size:11px;font-weight:600;letter-spacing:.3em;color:#c2d7db;animation:brand-reveal 350ms 850ms both}
+.brand-splash-tagline{margin:30px 0 0;font-size:clamp(13px,2.8vw,16px);color:#d1e3e5;line-height:1.7;animation:brand-reveal 300ms 1100ms both}
+.brand-loading{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted-foreground);font-size:14px}
+.animated-logo--loading{width:48px;margin:0}.animated-logo--loading .brand-heart{fill:var(--brand-ink)}.animated-logo--loading .brand-arc--teal{stroke:var(--brand-teal)}
+@keyframes brand-draw{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:1}}
+@keyframes brand-heart{0%{opacity:0;transform:scale(.88)}55%{opacity:1;transform:scale(1)}75%{transform:scale(1.045)}100%{opacity:1;transform:scale(1)}}
+@keyframes brand-reveal{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes brand-appear{from{opacity:0}to{opacity:1}}
+@keyframes brand-exit{from{opacity:1;transform:scale(1);visibility:visible}to{opacity:0;transform:scale(1.015);visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.brand-splash,.brand-splash-content,.brand-splash-wordmark,.brand-splash-byline,.brand-splash-tagline,.brand-heart,.brand-arc{animation:none;transform:none;opacity:1;stroke-dashoffset:0}}
+@media(max-width:640px){.brand-logo--md{width:150px}.brand-logo--compact{width:28px}.brand-splash-content{padding:24px}.wc-shell-header{gap:8px}.wc-shell-header .brand-breadcrumb{display:none}.brand-landing-header{height:auto!important;min-height:72px;flex-wrap:wrap;gap:12px;padding-top:12px;padding-bottom:12px}}
+.wc-phone-logo{background:transparent!important}.wc-phone-logo .brand-logo{width:24px;min-width:24px}.wc-kicker-mark{background:transparent!important}.wc-kicker-mark .brand-logo{width:24px;min-width:24px}
+
+/* Anchor absolute screen-reader labels inside the horizontal table scroller. */
+.wc-table-scroll{position:relative}
+
+@media(max-width:640px){.brand-landing-actions{flex-wrap:wrap;justify-content:center;width:100%}.brand-landing-header{justify-content:center}}

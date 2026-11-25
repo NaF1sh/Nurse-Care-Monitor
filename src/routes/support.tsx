@@ -22,9 +22,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/support")({
   head: () => ({
     meta: [
-      { title: "Support Coordination & Workforce Relief — Nurse Care Monitor" },
+      { title: "Support Coordination & Workforce Relief — NurseCare Monitor" },
       { name: "description", content: "11-step human-led support coordination workflow, peer assistance and break coverage." },
-      { property: "og:title", content: "Support Coordination & Workforce Relief — Nurse Care Monitor" },
+      { property: "og:title", content: "Support Coordination & Workforce Relief — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -104,13 +104,13 @@ function SupportCoordinationPage() {
       {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-base font-semibold text-[#192C28]">Support Coordination & Workforce Relief</h1>
+          <h1 className="text-base font-semibold text-[#08242d]">Support Coordination & Workforce Relief</h1>
           <p className="text-xs text-[#64766E] mt-0.5">
             Human-led support workflow: coordinate break coverage, task assistance and peer relief without clinical disruption.
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-[#E6EFEA] px-2.5 py-0.5 text-xs font-medium text-[#244D45]">
+          <span className="rounded-full bg-[#e4f2f0] px-2.5 py-0.5 text-xs font-medium text-[#005859]">
             11-Step Human Protocol
           </span>
         </div>
@@ -123,10 +123,10 @@ function SupportCoordinationPage() {
           <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] shadow-xs overflow-hidden">
             <div className="p-3.5 border-b border-[#E1E6E1] flex items-center justify-between">
               <div>
-                <h2 className="text-sm font-semibold text-[#192C28]">Active Support Requests</h2>
+                <h2 className="text-sm font-semibold text-[#08242d]">Active Support Requests</h2>
                 <p className="text-xs text-[#64766E]">Incoming relief requests from nurse companion apps</p>
               </div>
-              <span className="text-xs text-[#244D45] font-medium">
+              <span className="text-xs text-[#005859] font-medium">
                 {supportRequests.filter((s) => s.status === "pending").length} pending review
               </span>
             </div>
@@ -142,33 +142,33 @@ function SupportCoordinationPage() {
                     onClick={() => setSelectedRequest(req)}
                     className={cn(
                       "p-3.5 cursor-pointer transition-colors flex items-center justify-between gap-3",
-                      isSelected ? "bg-[#EFF3F0]" : "hover:bg-[#FAFBF9]"
+                      isSelected ? "bg-[#edf5f4]" : "hover:bg-[#FAFBF9]"
                     )}
                   >
                     <div className="flex items-center gap-3">
                       <div
                         className={cn(
                           "grid h-8 w-8 place-items-center rounded-md text-xs font-semibold shrink-0",
-                          isPending ? "bg-[#FFF3DD] text-[#B7791F]" : "bg-[#E6EFEA] text-[#244D45]"
+                          isPending ? "bg-[#FFF3DD] text-[#B7791F]" : "bg-[#e4f2f0] text-[#005859]"
                         )}
                       >
                         <HeartHandshake className="h-4 w-4" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-medium text-[#192C28]">{req.nurseName}</span>
+                          <span className="text-xs font-medium text-[#08242d]">{req.nurseName}</span>
                           <span className="text-[11px] text-[#64766E]">({req.ward} Ward)</span>
                           <span
                             className={cn(
                               "rounded px-1.5 py-0.2 text-[10px] font-medium uppercase",
-                              isPending ? "bg-[#FFF3DD] text-[#B7791F]" : "bg-[#E6EFEA] text-[#244D45]"
+                              isPending ? "bg-[#FFF3DD] text-[#B7791F]" : "bg-[#e4f2f0] text-[#005859]"
                             )}
                           >
                             {req.status}
                           </span>
                         </div>
                         <p className="text-xs text-[#64766E] mt-0.5">
-                          Requested: <strong className="font-medium text-[#192C28] capitalize">{req.type.replace("_", " ")}</strong> • {req.notes}
+                          Requested: <strong className="font-medium text-[#08242d] capitalize">{req.type.replace("_", " ")}</strong> • {req.notes}
                         </p>
                       </div>
                     </div>
@@ -176,7 +176,7 @@ function SupportCoordinationPage() {
                     <div className="text-right text-xs">
                       <span className="text-[#8A9A92]">{req.requestedAt}</span>
                       {req.assignedTo && (
-                        <p className="text-[11px] text-[#244D45] font-medium mt-0.5">Assigned to: {req.assignedTo}</p>
+                        <p className="text-[11px] text-[#005859] font-medium mt-0.5">Assigned to: {req.assignedTo}</p>
                       )}
                     </div>
                   </div>
@@ -187,13 +187,13 @@ function SupportCoordinationPage() {
 
           {/* 11-Step Human Protocol Visual Timeline */}
           <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] p-4 shadow-xs">
-            <h3 className="text-xs font-semibold text-[#192C28] mb-3 flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-[#244D45]" /> Nurse Care Monitor 11-Step Coordination Lifecycle
+            <h3 className="text-xs font-semibold text-[#08242d] mb-3 flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4 text-[#005859]" /> NurseCare Monitor 11-Step Coordination Lifecycle
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {WORKFLOW_STEPS.slice(0, 6).map((s) => (
                 <div key={s.step} className="rounded-md border border-[#E1E6E1] bg-[#FAFBF9] p-2 text-xs">
-                  <div className="flex items-center gap-1 text-[11px] font-semibold text-[#244D45]">
+                  <div className="flex items-center gap-1 text-[11px] font-semibold text-[#005859]">
                     <span>Step {s.step}:</span>
                     <span>{s.title}</span>
                   </div>
@@ -209,10 +209,10 @@ function SupportCoordinationPage() {
           {selectedRequest ? (
             <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] p-4 shadow-xs">
               <div className="pb-3 border-b border-[#E1E6E1]">
-                <span className="text-[11px] font-medium text-[#244D45] uppercase tracking-wider">
+                <span className="text-[11px] font-medium text-[#005859] uppercase tracking-wider">
                   Dispatch Action
                 </span>
-                <h3 className="text-sm font-semibold text-[#192C28] mt-0.5">
+                <h3 className="text-sm font-semibold text-[#08242d] mt-0.5">
                   Coordinate Coverage for {selectedRequest.nurseName}
                 </h3>
                 <p className="text-xs text-[#64766E] mt-0.5">
@@ -222,13 +222,13 @@ function SupportCoordinationPage() {
 
               <div className="mt-4 space-y-3.5">
                 <div>
-                  <label className="block text-xs font-medium text-[#192C28] mb-1">
+                  <label className="block text-xs font-medium text-[#08242d] mb-1">
                     Select Available Colleague / Float RN:
                   </label>
                   <select
                     value={selectedStaff}
                     onChange={(e) => setSelectedStaff(e.target.value)}
-                    className="w-full h-8 rounded-md border border-[#E1E6E1] bg-white px-2.5 text-xs text-[#192C28] outline-hidden cursor-pointer"
+                    className="w-full h-8 rounded-md border border-[#E1E6E1] bg-white px-2.5 text-xs text-[#08242d] outline-hidden cursor-pointer"
                   >
                     {AVAILABLE_FLOAT_STAFF.map((staff) => (
                       <option key={staff.name} value={staff.name} disabled={!staff.available}>
@@ -239,7 +239,7 @@ function SupportCoordinationPage() {
                 </div>
 
                 <div className="rounded-md border border-[#E1E6E1] bg-[#FAFBF9] p-3 text-xs">
-                  <span className="font-medium text-[#192C28] block mb-1">Assistance Context:</span>
+                  <span className="font-medium text-[#08242d] block mb-1">Assistance Context:</span>
                   <p className="text-[#64766E] leading-relaxed">
                     "{selectedRequest.notes || "Continuous high cognitive load in trauma ward. 15-minute coverage needed."}"
                   </p>
@@ -248,7 +248,7 @@ function SupportCoordinationPage() {
                 <div className="pt-2 flex flex-col gap-2">
                   <Button
                     onClick={handleAssign}
-                    className="w-full h-8 bg-[#244D45] hover:bg-[#1b3d36] text-white text-xs font-medium rounded-md"
+                    className="w-full h-8 bg-[#005859] hover:bg-[#1b3d36] text-white text-xs font-medium rounded-md"
                   >
                     <UserCheck className="h-3.5 w-3.5 mr-1.5" />
                     Assign {selectedStaff.split(" ")[0]} & Dispatch Mobile Notice
@@ -258,9 +258,9 @@ function SupportCoordinationPage() {
                     <Button
                       onClick={handleResolve}
                       variant="outline"
-                      className="w-full h-8 border-[#E1E6E1] text-[#192C28] hover:bg-[#F7F8F5] text-xs font-medium rounded-md"
+                      className="w-full h-8 border-[#E1E6E1] text-[#08242d] hover:bg-[#F4F8F8] text-xs font-medium rounded-md"
                     >
-                      <CheckCircle2 className="h-3.5 w-3.5 mr-1.5 text-[#244D45]" />
+                      <CheckCircle2 className="h-3.5 w-3.5 mr-1.5 text-[#005859]" />
                       Mark Support Completed
                     </Button>
                   )}

@@ -26,9 +26,9 @@ import { LanguageToggle } from "@/lib/i18n";
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
-      { title: "Workspace & System Settings — Nurse Care Monitor" },
+      { title: "Workspace & System Settings — NurseCare Monitor" },
       { name: "description", content: "Supervisor preferences, privacy settings, demonstration controls and hospital configuration." },
-      { property: "og:title", content: "Workspace & System Settings — Nurse Care Monitor" },
+      { property: "og:title", content: "Workspace & System Settings — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -59,7 +59,7 @@ function SettingsPage() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h2 className="text-xl font-extrabold text-[#172033] tracking-tight">Workspace & System Settings</h2>
+        <h2 className="text-xl font-extrabold text-[#08242d] tracking-tight">Workspace & System Settings</h2>
         <p className="text-xs text-[#64748B]">
           Supervisor identity, companion notification bridge, privacy retention and demonstration controls.
         </p>
@@ -69,11 +69,11 @@ function SettingsPage() {
       <Card className="rounded-2xl border border-[#C9F3DD] bg-[#E1F4E9]/30 p-6 shadow-2xs">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#C9F3DD] text-[#142039] shrink-0">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#C9F3DD] text-[#08242d] shrink-0">
               <Sparkles className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-sm font-extrabold text-[#142039]">Competition Demonstration Mode</h3>
+              <h3 className="text-sm font-extrabold text-[#08242d]">Competition Demonstration Mode</h3>
               <p className="text-xs text-[#64748B] mt-0.5 leading-relaxed">
                 Pre-configured for the International AI Builders Congress evaluation. Enables seamless walkthrough of the 11-step support workflow, simulated wearable streams and instant companion notification previews without altering production records.
               </p>
@@ -94,14 +94,14 @@ function SettingsPage() {
       {/* Supervisor Account Profile */}
       <Card className="rounded-2xl border-[#E2E7EF] p-6 shadow-2xs bg-white">
         <div className="flex items-center gap-2 pb-4 border-b border-[#E2E7EF]">
-          <User className="h-4 w-4 text-[#394BC5]" />
-          <CardTitle className="text-base font-extrabold text-[#172033]">Supervisor Profile</CardTitle>
+          <User className="h-4 w-4 text-[#005859]" />
+          <CardTitle className="text-base font-extrabold text-[#08242d]">Supervisor Profile</CardTitle>
         </div>
 
         <form onSubmit={handleSavePreferences} className="mt-4 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-[#172033] mb-1">Full Name</label>
+              <label className="block text-xs font-bold text-[#08242d] mb-1">Full Name</label>
               <Input
                 defaultValue={user?.full_name || "Dr. Anika Rahman"}
                 disabled={isDemoMode}
@@ -109,7 +109,7 @@ function SettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-[#172033] mb-1">Email Address</label>
+              <label className="block text-xs font-bold text-[#08242d] mb-1">Email Address</label>
               <Input
                 defaultValue={user?.email || "supervisor@wecare.hospital"}
                 disabled
@@ -117,7 +117,7 @@ function SettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-[#172033] mb-1">Assigned Role</label>
+              <label className="block text-xs font-bold text-[#08242d] mb-1">Assigned Role</label>
               <Input
                 defaultValue={user?.role === "admin" ? "Lead Supervisor (Admin)" : "Unit Supervisor"}
                 disabled
@@ -125,7 +125,7 @@ function SettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-[#172033] mb-1">Hospital Organization</label>
+              <label className="block text-xs font-bold text-[#08242d] mb-1">Hospital Organization</label>
               <Input
                 defaultValue="City General Hospital (Central Inpatient Wing)"
                 disabled
@@ -134,7 +134,7 @@ function SettingsPage() {
             </div>
           </div>
 
-          <Button type="submit" className="h-9 rounded-xl bg-[#394BC5] hover:bg-[#303eaa] text-xs font-bold text-white">
+          <Button type="submit" className="h-9 rounded-xl bg-[#005859] hover:bg-[#076669] text-xs font-bold text-white">
             <Save className="mr-1.5 h-3.5 w-3.5" /> Save Changes
           </Button>
         </form>
@@ -143,8 +143,8 @@ function SettingsPage() {
       {/* Notification & Companion Preferences */}
       <Card className="rounded-2xl border-[#E2E7EF] p-6 shadow-2xs bg-white">
         <div className="flex items-center gap-2 pb-4 border-b border-[#E2E7EF]">
-          <Bell className="h-4 w-4 text-[#394BC5]" />
-          <CardTitle className="text-base font-extrabold text-[#172033]">
+          <Bell className="h-4 w-4 text-[#005859]" />
+          <CardTitle className="text-base font-extrabold text-[#08242d]">
             Companion App & Push Notification Bridge
           </CardTitle>
         </div>
@@ -152,27 +152,27 @@ function SettingsPage() {
         <div className="mt-4 space-y-3">
           <div className="flex items-center justify-between py-2 border-b border-[#EEF2F7]">
             <div>
-              <p className="text-xs font-bold text-[#172033]">Firebase Cloud Messaging (FCM) Dispatch</p>
+              <p className="text-xs font-bold text-[#08242d]">Firebase Cloud Messaging (FCM) Dispatch</p>
               <p className="text-[11px] text-[#64748B]">Push notifications directly to staff Android companion devices</p>
             </div>
             <input
               type="checkbox"
               checked={fcmEnabled}
               onChange={(e) => setFcmEnabled(e.target.checked)}
-              className="rounded border-[#D9E0EB] text-[#394BC5]"
+              className="rounded border-[#D9E0EB] text-[#005859]"
             />
           </div>
 
           <div className="flex items-center justify-between py-2 border-b border-[#EEF2F7]">
             <div>
-              <p className="text-xs font-bold text-[#172033]">High-Priority Haptic Vibration</p>
+              <p className="text-xs font-bold text-[#08242d]">High-Priority Haptic Vibration</p>
               <p className="text-[11px] text-[#64748B]">Trigger wearable wrist vibration on urgent relief requests</p>
             </div>
             <input
               type="checkbox"
               checked={hapticAlerts}
               onChange={(e) => setHapticAlerts(e.target.checked)}
-              className="rounded border-[#D9E0EB] text-[#394BC5]"
+              className="rounded border-[#D9E0EB] text-[#005859]"
             />
           </div>
         </div>
@@ -182,7 +182,7 @@ function SettingsPage() {
       <Card className="rounded-2xl border-[#E2E7EF] p-6 shadow-2xs bg-white">
         <div className="flex items-center gap-2 pb-4 border-b border-[#E2E7EF]">
           <ShieldCheck className="h-4 w-4 text-[#16835E]" />
-          <CardTitle className="text-base font-extrabold text-[#172033]">
+          <CardTitle className="text-base font-extrabold text-[#08242d]">
             Privacy, Consent & Data Governance
           </CardTitle>
         </div>
@@ -192,7 +192,7 @@ function SettingsPage() {
             • <strong>Voluntary Participation:</strong> Physiological sensor monitoring requires explicit written consent from nursing staff. Nurses may pause or revoke participation at any time without punitive consequences.
           </p>
           <p>
-            • <strong>Non-Diagnostic Designation:</strong> Nurse Care Monitor is a supportive workforce coordination aid, not a diagnostic medical device. It does not determine clinical competence or clinical staffing ratios automatically.
+            • <strong>Non-Diagnostic Designation:</strong> NurseCare Monitor is a supportive workforce coordination aid, not a diagnostic medical device. It does not determine clinical competence or clinical staffing ratios automatically.
           </p>
           <p>
             • <strong>Rolling Retention:</strong> High-frequency physiological signals are retained for {retentionDays} days before automatic purge, in compliance with healthcare data protection standards.

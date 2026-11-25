@@ -20,9 +20,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/wards")({
   head: () => ({
     meta: [
-      { title: "Ward Management & Workforce Capacity — Nurse Care Monitor" },
+      { title: "Ward Management & Workforce Capacity — NurseCare Monitor" },
       { name: "description", content: "Hospital ward status, assigned staff, active wearable monitoring and assistance requests." },
-      { property: "og:title", content: "Ward Management & Workforce Capacity — Nurse Care Monitor" },
+      { property: "og:title", content: "Ward Management & Workforce Capacity — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -66,7 +66,7 @@ function WardsPage() {
       {/* Header Overview */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-base font-semibold text-[#192C28]">Hospital Wards & Clinical Units</h1>
+          <h1 className="text-base font-semibold text-[#08242d]">Hospital Wards & Clinical Units</h1>
           <p className="text-xs text-[#64766E] mt-0.5">
             Workforce distribution, monitoring coverage and pending relief needs across 5 inpatient wards.
           </p>
@@ -83,7 +83,7 @@ function WardsPage() {
             });
             toast.success("Broadcast dispatched to all hospital wards.");
           }}
-          className="h-7 rounded-md bg-[#244D45] hover:bg-[#1b3d36] text-xs font-medium text-white shadow-xs"
+          className="h-7 rounded-md bg-[#005859] hover:bg-[#1b3d36] text-xs font-medium text-white shadow-xs"
         >
           <MessageSquare className="mr-1.5 h-3.5 w-3.5" /> Broadcast Hospital-wide
         </Button>
@@ -102,15 +102,15 @@ function WardsPage() {
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-[#E1E6E1]">
                   <div className="flex items-center gap-2">
-                    <div className="grid h-8 w-8 place-items-center rounded-md bg-[#EFF3F0] text-[#244D45]">
+                    <div className="grid h-8 w-8 place-items-center rounded-md bg-[#edf5f4] text-[#005859]">
                       <Building2 className="h-4 w-4" />
                     </div>
                     <div>
-                      <h2 className="text-sm font-semibold text-[#192C28]">{ward} Ward</h2>
+                      <h2 className="text-sm font-semibold text-[#08242d]">{ward} Ward</h2>
                       <p className="text-[11px] text-[#64766E]">{meta.specialty}</p>
                     </div>
                   </div>
-                  <span className="rounded bg-[#EFF3F0] px-2 py-0.5 text-[11px] font-mono text-[#64766E]">
+                  <span className="rounded bg-[#edf5f4] px-2 py-0.5 text-[11px] font-mono text-[#64766E]">
                     Cap: {meta.capacity}
                   </span>
                 </div>
@@ -119,15 +119,15 @@ function WardsPage() {
                 <div className="mt-3 grid grid-cols-3 gap-2 text-center">
                   <div className="rounded-md border border-[#E1E6E1] bg-[#FAFBF9] p-2">
                     <span className="text-[10px] font-medium text-[#64766E] uppercase">Staff</span>
-                    <p className="font-mono text-sm font-semibold text-[#192C28] mt-0.5">{wardNurses.length}</p>
+                    <p className="font-mono text-sm font-semibold text-[#08242d] mt-0.5">{wardNurses.length}</p>
                   </div>
                   <div className="rounded-md border border-[#E1E6E1] bg-[#FAFBF9] p-2">
                     <span className="text-[10px] font-medium text-[#64766E] uppercase">Monitored</span>
-                    <p className="font-mono text-sm font-semibold text-[#244D45] mt-0.5">{wardNurses.length}</p>
+                    <p className="font-mono text-sm font-semibold text-[#005859] mt-0.5">{wardNurses.length}</p>
                   </div>
                   <div className={cn("rounded-md border p-2", highCount > 0 ? "border-[#C24152]/30 bg-[#FDE8EA]/50" : "border-[#E1E6E1] bg-[#FAFBF9]")}>
                     <span className={cn("text-[10px] font-medium uppercase", highCount > 0 ? "text-[#C24152]" : "text-[#64766E]")}>Elevated</span>
-                    <p className={cn("font-mono text-sm font-semibold mt-0.5", highCount > 0 ? "text-[#C24152]" : "text-[#192C28]")}>{highCount}</p>
+                    <p className={cn("font-mono text-sm font-semibold mt-0.5", highCount > 0 ? "text-[#C24152]" : "text-[#08242d]")}>{highCount}</p>
                   </div>
                 </div>
 
@@ -140,7 +140,7 @@ function WardsPage() {
                     ) : (
                       wardNurses.map((n) => (
                         <div key={n.id} className="flex items-center justify-between text-xs py-1 border-b border-[#F5F7F5]">
-                          <span className="font-medium text-[#192C28]">{n.full_name}</span>
+                          <span className="font-medium text-[#08242d]">{n.full_name}</span>
                           <span className="text-[11px] font-mono text-[#64766E]">{n.nurse_code}</span>
                         </div>
                       ))
@@ -155,15 +155,15 @@ function WardsPage() {
                   size="sm"
                   variant="outline"
                   onClick={() => handleBroadcastWard(ward)}
-                  className="flex-1 h-7 rounded-md text-xs font-medium text-[#192C28] border-[#E1E6E1] hover:bg-[#F7F8F5]"
+                  className="flex-1 h-7 rounded-md text-xs font-medium text-[#08242d] border-[#E1E6E1] hover:bg-[#F4F8F8]"
                 >
-                  <MessageSquare className="mr-1 h-3.5 w-3.5 text-[#244D45]" /> Broadcast
+                  <MessageSquare className="mr-1 h-3.5 w-3.5 text-[#005859]" /> Broadcast
                 </Button>
                 <Button
                   size="sm"
                   asChild
                   onClick={() => setActiveWard(ward)}
-                  className="flex-1 h-7 rounded-md bg-[#244D45] hover:bg-[#1b3d36] text-xs font-medium text-white"
+                  className="flex-1 h-7 rounded-md bg-[#005859] hover:bg-[#1b3d36] text-xs font-medium text-white"
                 >
                   <Link to="/dashboard">
                     View Roster <ArrowRight className="ml-1 h-3.5 w-3.5" />

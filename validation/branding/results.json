@@ -1,0 +1,38 @@
+{
+  "errors": [
+    "401 https://chhlbtfldtaedlvzfvsz.supabase.co/rest/v1/rpc/profile_names",
+    "Failed to load resource: the server responded with a status of 401 ()",
+    "401 https://chhlbtfldtaedlvzfvsz.supabase.co/rest/v1/rpc/profile_names",
+    "Failed to load resource: the server responded with a status of 401 ()"
+  ],
+  "checks": [
+    {
+      "name": "initial session marked",
+      "pass": true
+    },
+    {
+      "name": "navigation does not replay",
+      "pass": true
+    },
+    {
+      "name": "reload does not replay",
+      "pass": true
+    },
+    {
+      "name": "intro exits",
+      "pass": true
+    },
+    {
+      "name": "mobile no horizontal document overflow",
+      "pass": true
+    },
+    {
+      "name": "mobile workspace uses screen width",
+      "pass": true
+    },
+    {
+      "name": "reduced motion exits",
+      "pass": true
+    }
+  ]
+}

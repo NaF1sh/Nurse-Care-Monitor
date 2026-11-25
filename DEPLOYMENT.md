@@ -32,3 +32,18 @@ Tables: `profiles`, `user_roles`, `nurses`, `sensor_readings`, `predictions`, `m
 
 ## Not yet implemented
 - Real Hugging Face model connection — blocked on model details and token (`HF_API_TOKEN`, `HF_ENDPOINT_URL`).
+
+
+## Vercel (NurseCare Monitor)
+
+The existing Lovable configuration includes Nitro and auto-detects Vercel. Do not add another Nitro plugin or deploy only the static assets: SSR and Gradio server functions are required.
+
+- Import `NaF1sh/Nurse-Care-Monitor` and select `wecare-studio-v3` as the deployment branch.
+- `vercel.json` uses `npm ci` and `npm run build`, retaining the tested npm lockfile rather than the older Bun lockfile.
+- To validate the target locally in PowerShell: `$env:NITRO_PRESET='vercel'; npm.cmd run build`. Nitro emits `.vercel/output` with SSR functions and static assets. Clear the variable afterward.
+- The existing tracked `.env` contains Supabase public connection settings only. For managed configuration, set `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID` in Vercel. SSR fallback names are `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`.
+- Optional Gradio credentials (`HF_API_TOKEN`) belong only in Vercel server environment variables, never in a `VITE_` variable. Public Spaces need no token.
+- Add the final Vercel URL and `/reset-password` to Supabase Auth's allowed redirect URLs for confirmation and recovery flows. Preserve existing Lovable URLs.
+- Deployments use existing Supabase records and policies; deploying the website does not migrate or reset the database.
+
+Official hosting reference: https://vercel.com/docs/frameworks/full-stack/tanstack-start

@@ -24,9 +24,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export const Route = createFileRoute("/ai-devices")({
   head: () => ({
     meta: [
-      { title: "AI Intelligence & Device Architecture — Nurse Care Monitor" },
+      { title: "AI Intelligence & Device Architecture — NurseCare Monitor" },
       { name: "description", content: "Clinical ML pipeline, WESAD/NURSE datasets, 7.5-min calibration, and wearable device telemetry." },
-      { property: "og:title", content: "AI Intelligence & Device Architecture — Nurse Care Monitor" },
+      { property: "og:title", content: "AI Intelligence & Device Architecture — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -62,12 +62,12 @@ function AiDevicesPage() {
       {/* Top Title & Quick Link to Simulation */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-extrabold text-[#172033] tracking-tight">AI Model Intelligence & Wearable Fleet</h2>
+          <h2 className="text-xl font-extrabold text-[#08242d] tracking-tight">AI Model Intelligence & Wearable Fleet</h2>
           <p className="text-xs text-[#64748B]">
             Engine architecture, training datasets, personal baseline calibration mechanics, and device telemetry.
           </p>
         </div>
-        <Button asChild className="h-8 rounded-xl bg-[#394BC5] hover:bg-[#303eaa] text-xs font-bold text-white">
+        <Button asChild className="h-8 rounded-xl bg-[#005859] hover:bg-[#076669] text-xs font-bold text-white">
           <Link to="/simulation">
             <Gauge className="mr-1.5 h-3.5 w-3.5" /> Open Interactive AI Simulation
           </Link>
@@ -79,9 +79,9 @@ function AiDevicesPage() {
         <Card className="rounded-2xl border-[#E2E7EF] p-4 bg-white shadow-2xs">
           <div className="flex items-center justify-between text-xs font-bold text-[#64748B]">
             <span>Model Version</span>
-            <Cpu className="h-4 w-4 text-[#394BC5]" />
+            <Cpu className="h-4 w-4 text-[#005859]" />
           </div>
-          <p className="mt-2 font-mono text-xl font-extrabold text-[#172033]">v1.2-classical</p>
+          <p className="mt-2 font-mono text-xl font-extrabold text-[#08242d]">v1.2-classical</p>
           <p className="mt-1 text-[11px] text-[#64748B]">Classical Random Forest + Scikit-Learn</p>
         </Card>
 
@@ -99,16 +99,16 @@ function AiDevicesPage() {
             <span>Inference Latency</span>
             <Zap className="h-4 w-4 text-[#B7791F]" />
           </div>
-          <p className="mt-2 font-mono text-xl font-extrabold text-[#172033]">~65 ms</p>
+          <p className="mt-2 font-mono text-xl font-extrabold text-[#08242d]">~65 ms</p>
           <p className="mt-1 text-[11px] text-[#64748B]">Gradio Space API response</p>
         </Card>
 
         <Card className="rounded-2xl border-[#E2E7EF] p-4 bg-white shadow-2xs">
           <div className="flex items-center justify-between text-xs font-bold text-[#64748B]">
             <span>Training Datasets</span>
-            <Database className="h-4 w-4 text-[#394BC5]" />
+            <Database className="h-4 w-4 text-[#005859]" />
           </div>
-          <p className="mt-2 font-mono text-xl font-extrabold text-[#394BC5]">NURSE + WESAD</p>
+          <p className="mt-2 font-mono text-xl font-extrabold text-[#005859]">NURSE + WESAD</p>
           <p className="mt-1 text-[11px] text-[#64748B]">Physiological ambulatory studies</p>
         </Card>
       </div>
@@ -116,11 +116,11 @@ function AiDevicesPage() {
       {/* AI Pipeline Visual Walkthrough */}
       <Card className="rounded-2xl border-[#E2E7EF] p-6 shadow-2xs bg-white">
         <div className="pb-4 border-b border-[#E2E7EF]">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#394BC5]">
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#005859]">
             END-TO-END INTELLIGENCE PIPELINE
           </span>
-          <h3 className="text-base font-extrabold text-[#172033]">
-            How Nurse Care Monitor Translates Raw Wearable Signals Into Timely Relief
+          <h3 className="text-base font-extrabold text-[#08242d]">
+            How NurseCare Monitor Translates Raw Wearable Signals Into Timely Relief
           </h3>
         </div>
 
@@ -128,15 +128,15 @@ function AiDevicesPage() {
           {AI_PIPELINE.map((stage) => (
             <div
               key={stage.step}
-              className="rounded-2xl border border-[#E2E7EF] bg-[#F8FAFC] p-4 transition-all hover:border-[#394BC5] hover:shadow-xs"
+              className="rounded-2xl border border-[#E2E7EF] bg-[#F8FAFC] p-4 transition-all hover:border-[#005859] hover:shadow-xs"
             >
-              <div className="flex items-center justify-between text-xs font-bold text-[#394BC5]">
+              <div className="flex items-center justify-between text-xs font-bold text-[#005859]">
                 <span className="font-mono text-sm font-black bg-[#E5E9FD] px-2 py-0.5 rounded-md">
                   {stage.step}
                 </span>
                 <span className="text-[10px] font-mono text-[#8E9FB8]">{stage.tech}</span>
               </div>
-              <h4 className="mt-2.5 text-xs font-extrabold text-[#172033]">{stage.title}</h4>
+              <h4 className="mt-2.5 text-xs font-extrabold text-[#08242d]">{stage.title}</h4>
               <p className="mt-1 text-[11px] text-[#64748B] leading-relaxed">{stage.desc}</p>
             </div>
           ))}
@@ -146,7 +146,7 @@ function AiDevicesPage() {
       {/* Wearable Fleet Management Table */}
       <Card className="rounded-2xl border-[#E2E7EF] shadow-2xs bg-white overflow-hidden">
         <div className="p-5 border-b border-[#E2E7EF]">
-          <CardTitle className="text-base font-extrabold text-[#172033]">
+          <CardTitle className="text-base font-extrabold text-[#08242d]">
             Smartwatch Device Fleet Telemetry
           </CardTitle>
           <p className="text-xs text-[#64748B]">
@@ -170,15 +170,15 @@ function AiDevicesPage() {
             <tbody className="divide-y divide-[#EEF2F7]">
               {DEVICE_FLEET.map((dev) => (
                 <tr key={dev.id} className="hover:bg-[#F8FAFC]">
-                  <td className="p-3.5 pl-5 font-mono font-bold text-[#172033]">{dev.id}</td>
-                  <td className="p-3.5 font-medium text-[#172033] flex items-center gap-2">
-                    <Watch className="h-3.5 w-3.5 text-[#394BC5]" /> {dev.model}
+                  <td className="p-3.5 pl-5 font-mono font-bold text-[#08242d]">{dev.id}</td>
+                  <td className="p-3.5 font-medium text-[#08242d] flex items-center gap-2">
+                    <Watch className="h-3.5 w-3.5 text-[#005859]" /> {dev.model}
                   </td>
-                  <td className="p-3.5 font-bold text-[#172033]">{dev.nurse}</td>
+                  <td className="p-3.5 font-bold text-[#08242d]">{dev.nurse}</td>
                   <td className="p-3.5 font-semibold text-[#64748B]">{dev.ward}</td>
                   <td className="p-3.5 font-mono">
                     {dev.battery > 0 ? (
-                      <span className="inline-flex items-center gap-1 font-bold text-[#172033]">
+                      <span className="inline-flex items-center gap-1 font-bold text-[#08242d]">
                         <Battery className="h-3.5 w-3.5 text-[#16835E]" /> {dev.battery}%
                       </span>
                     ) : (
@@ -186,7 +186,7 @@ function AiDevicesPage() {
                     )}
                   </td>
                   <td className="p-3.5">
-                    <span className="rounded-md bg-[#EEF2F7] px-2 py-0.5 text-[11px] font-bold text-[#172033]">
+                    <span className="rounded-md bg-[#EEF2F7] px-2 py-0.5 text-[11px] font-bold text-[#08242d]">
                       {dev.mode}
                     </span>
                   </td>

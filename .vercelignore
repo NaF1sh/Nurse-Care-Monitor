@@ -1,0 +1,5 @@
+branding-source/
+validation/
+.git/
+.output/
+.wrangler/

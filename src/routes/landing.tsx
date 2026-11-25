@@ -34,9 +34,9 @@ import { LanguageToggle, useT } from "@/lib/i18n";
 export const Route = createFileRoute("/landing")({
   head: () => ({
     meta: [
-      { title: "Nurse Care Monitor — Nurse Monitoring & Workforce Support Platform" },
+      { title: "NurseCare Monitor — Nurse Monitoring & Workforce Support Platform" },
       { name: "description", content: "Care for those who care for us. Spot nurse strain early. Support teams sooner." },
-      { property: "og:title", content: "Nurse Care Monitor — Nurse Monitoring & Workforce Support Platform" },
+      { property: "og:title", content: "NurseCare Monitor — Nurse Monitoring & Workforce Support Platform" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Spot nurse strain early. Support teams sooner." },
@@ -61,7 +61,7 @@ function LandingPage() {
 
   const handleLaunchDemo = () => {
     enterDemoMode();
-    toast.success("Welcome to the Nurse Care Monitor Workspace!", {
+    toast.success("Welcome to the NurseCare Monitor Workspace!", {
       description: "Supervisor dashboard with full left menu loaded.",
     });
     navigate({ to: "/" });
@@ -93,22 +93,22 @@ function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F5F8] text-[#172033] font-sans antialiased selection:bg-[#C9F3DD] selection:text-[#142039]">
+    <div className="min-h-screen bg-[#F4F8F8] text-[#08242d] font-sans antialiased selection:bg-[#C9F3DD] selection:text-[#08242d]">
       {/* Top Navbar */}
       <header className="sticky top-0 z-40 border-b border-[#E2E7EF] bg-white/90 backdrop-blur-md">
-        <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="brand-landing-header mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-2">
             <WeCareLogo size="md" variant="light" withSubtitle={true} />
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-xs font-bold text-[#64748B]">
-            <a href="#problem" className="hover:text-[#172033] transition-colors">The Challenge</a>
-            <a href="#how-it-works" className="hover:text-[#172033] transition-colors">How It Works</a>
-            <a href="#affordability" className="hover:text-[#172033] transition-colors">Affordability</a>
-            <a href="#trust" className="hover:text-[#172033] transition-colors">Trust & Safety</a>
+            <a href="#problem" className="hover:text-[#08242d] transition-colors">The Challenge</a>
+            <a href="#how-it-works" className="hover:text-[#08242d] transition-colors">How It Works</a>
+            <a href="#affordability" className="hover:text-[#08242d] transition-colors">Affordability</a>
+            <a href="#trust" className="hover:text-[#08242d] transition-colors">Trust & Safety</a>
           </nav>
 
-          <div className="flex items-center gap-2.5">
+          <div className="brand-landing-actions flex items-center gap-2.5">
             <LanguageToggle />
             <Button
               variant="outline"
@@ -117,14 +117,14 @@ function LandingPage() {
                 setMode("signin");
                 setShowAuthModal(true);
               }}
-              className="h-9 rounded-xl border-[#D9E0EB] text-xs font-bold text-[#172033]"
+              className="h-9 rounded-xl border-[#D9E0EB] text-xs font-bold text-[#08242d]"
             >
               Supervisor Sign In
             </Button>
             <Button
               size="sm"
               onClick={handleLaunchDemo}
-              className="h-9 rounded-xl bg-[#394BC5] hover:bg-[#303eaa] text-xs font-extrabold text-white shadow-xs"
+              className="h-9 rounded-xl bg-[#005859] hover:bg-[#076669] text-xs font-extrabold text-white shadow-xs"
             >
               Open Workspace <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
             </Button>
@@ -140,8 +140,8 @@ function LandingPage() {
             International AI Builders Congress — HealthSphere AI Finalist
           </div>
 
-          <h1 className="mx-auto max-w-4xl text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#142039] leading-[1.1]">
-            Care for those who <span className="text-[#394BC5] underline decoration-[#C9F3DD] decoration-wavy underline-offset-8">care for us</span>.
+          <h1 className="mx-auto max-w-4xl text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#08242d] leading-[1.1]">
+            Care for those who <span className="text-[#005859] underline decoration-[#C9F3DD] decoration-wavy underline-offset-8">care for us</span>.
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base md:text-lg text-[#64748B] leading-relaxed">
@@ -152,13 +152,13 @@ function LandingPage() {
             <Button
               size="lg"
               onClick={handleLaunchDemo}
-              className="h-12 rounded-2xl bg-[#394BC5] hover:bg-[#303eaa] px-6 text-sm font-extrabold text-white shadow-md transition-transform hover:-translate-y-0.5"
+              className="h-12 rounded-2xl bg-[#005859] hover:bg-[#076669] px-6 text-sm font-extrabold text-white shadow-md transition-transform hover:-translate-y-0.5"
             >
               Open Supervisor Dashboard <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Link
               to="/"
-              className="inline-flex h-12 items-center rounded-2xl border border-[#D9E0EB] bg-white px-6 text-sm font-bold text-[#172033] hover:bg-[#F8FAFC]"
+              className="inline-flex h-12 items-center rounded-2xl border border-[#D9E0EB] bg-white px-6 text-sm font-bold text-[#08242d] hover:bg-[#F8FAFC]"
             >
               View Left Menu Workspace
             </Link>
@@ -166,20 +166,23 @@ function LandingPage() {
         </div>
       </section>
 
+      <footer className="border-t border-border bg-white px-6 py-8 flex flex-wrap items-center justify-center gap-6">
+        <WeCareLogo size="lg" /><p className="text-sm text-muted-foreground">NurseCare Monitor by WeCare · Care for those who care for us.</p>
+      </footer>
       {/* Integrated Supabase Auth Modal */}
       {showAuthModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
           <Card className="w-full max-w-md rounded-2xl border border-[#E2E7EF] bg-white p-6 shadow-2xl relative">
             <button
               onClick={() => setShowAuthModal(false)}
-              className="absolute right-4 top-4 rounded-lg p-1 text-[#64748B] hover:bg-[#F3F5F8]"
+              className="absolute right-4 top-4 rounded-lg p-1 text-[#64748B] hover:bg-[#F4F8F8]"
             >
               <X className="h-5 w-5" />
             </button>
 
             <CardHeader className="text-center p-0 pb-4">
               <WeCareLogo size="md" variant="light" className="justify-center mb-2" />
-              <CardTitle className="text-lg font-extrabold text-[#172033]">
+              <CardTitle className="text-lg font-extrabold text-[#08242d]">
                 {mode === "signin" ? "Supervisor Sign In" : mode === "signup" ? "Register Supervisor Account" : "Password Recovery"}
               </CardTitle>
               <CardDescription className="text-xs text-[#64748B]">
@@ -191,7 +194,7 @@ function LandingPage() {
               <form onSubmit={handleAuthSubmit} className="space-y-3.5">
                 {mode === "signup" && (
                   <div>
-                    <Label className="text-xs font-bold text-[#172033]">Full Name</Label>
+                    <Label className="text-xs font-bold text-[#08242d]">Full Name</Label>
                     <Input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -204,7 +207,7 @@ function LandingPage() {
                 )}
 
                 <div>
-                  <Label className="text-xs font-bold text-[#172033]">Hospital Email</Label>
+                  <Label className="text-xs font-bold text-[#08242d]">Hospital Email</Label>
                   <Input
                     type="email"
                     value={email}
@@ -218,12 +221,12 @@ function LandingPage() {
                 {mode !== "forgot" && (
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <Label className="text-xs font-bold text-[#172033]">Password</Label>
+                      <Label className="text-xs font-bold text-[#08242d]">Password</Label>
                       {mode === "signin" && (
                         <button
                           type="button"
                           onClick={() => { setMode("forgot"); setMsg(null); }}
-                          className="text-[11px] font-bold text-[#394BC5] hover:underline"
+                          className="text-[11px] font-bold text-[#005859] hover:underline"
                         >
                           Forgot password?
                         </button>
@@ -250,7 +253,7 @@ function LandingPage() {
                 <Button
                   type="submit"
                   disabled={busy}
-                  className="w-full h-10 rounded-xl bg-[#394BC5] hover:bg-[#303eaa] font-extrabold text-xs text-white"
+                  className="w-full h-10 rounded-xl bg-[#005859] hover:bg-[#076669] font-extrabold text-xs text-white"
                 >
                   {mode === "signin" ? "Sign In" : mode === "signup" ? "Register Supervisor" : "Send Recovery Email"}
                 </Button>
@@ -263,7 +266,7 @@ function LandingPage() {
                     setMode(mode === "signin" ? "signup" : "signin");
                     setMsg(null);
                   }}
-                  className="font-bold text-[#394BC5] hover:underline"
+                  className="font-bold text-[#005859] hover:underline"
                 >
                   {mode === "signin" ? "Need a supervisor account? Register" : "Back to Sign In"}
                 </button>

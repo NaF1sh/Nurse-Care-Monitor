@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Activity } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -12,9 +12,9 @@ import { LanguageToggle, useT } from "@/lib/i18n";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Reset password — Nurse Stress Monitor" },
+      { title: "Reset password — NurseCare Monitor" },
       { name: "description", content: "Choose a new password for your account." },
-      { property: "og:title", content: "Reset password — Nurse Stress Monitor" },
+      { property: "og:title", content: "Reset password — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Choose a new password for your account." },
@@ -54,7 +54,7 @@ function ResetPassword() {
       <div className="absolute right-4 top-4"><LanguageToggle /></div>
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <Activity className="mx-auto h-8 w-8 text-primary" />
+          <BrandLogo className="mx-auto" />
           <CardTitle className="text-xl">{t("reset.title")}</CardTitle>
           <CardDescription>{ready ? t("reset.ready") : t("reset.notReady")}</CardDescription>
         </CardHeader>

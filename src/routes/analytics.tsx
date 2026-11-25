@@ -33,9 +33,9 @@ import { WARDS } from "@/lib/store";
 export const Route = createFileRoute("/analytics")({
   head: () => ({
     meta: [
-      { title: "Analytics & Workforce Reports — Nurse Care Monitor" },
+      { title: "Analytics & Workforce Reports — NurseCare Monitor" },
       { name: "description", content: "Workforce well-being trends, relief response latency and monitoring coverage metrics." },
-      { property: "og:title", content: "Analytics & Workforce Reports — Nurse Care Monitor" },
+      { property: "og:title", content: "Analytics & Workforce Reports — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -88,7 +88,7 @@ function AnalyticsPage() {
       {/* Top Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-extrabold text-[#172033] tracking-tight">Workforce Well-being & Operational Analytics</h2>
+          <h2 className="text-xl font-extrabold text-[#08242d] tracking-tight">Workforce Well-being & Operational Analytics</h2>
           <p className="text-xs text-[#64748B]">
             Aggregated patterns, notification acknowledgment speeds and relief delivery metrics.
           </p>
@@ -98,7 +98,7 @@ function AnalyticsPage() {
           <select
             value={selectedWard}
             onChange={(e) => setSelectedWard(e.target.value)}
-            className="h-8 rounded-xl border border-[#D9E0EB] bg-white px-3 text-xs font-semibold text-[#172033]"
+            className="h-8 rounded-xl border border-[#D9E0EB] bg-white px-3 text-xs font-semibold text-[#08242d]"
           >
             <option value="all">All Hospital Wards</option>
             {WARDS.map((w) => (
@@ -109,9 +109,9 @@ function AnalyticsPage() {
             onClick={handleExport}
             variant="outline"
             size="sm"
-            className="h-8 rounded-xl border-[#D9E0EB] text-xs font-bold text-[#172033]"
+            className="h-8 rounded-xl border-[#D9E0EB] text-xs font-bold text-[#08242d]"
           >
-            <Download className="mr-1.5 h-3.5 w-3.5 text-[#394BC5]" /> Export Report
+            <Download className="mr-1.5 h-3.5 w-3.5 text-[#005859]" /> Export Report
           </Button>
         </div>
       </div>
@@ -128,9 +128,9 @@ function AnalyticsPage() {
 
         <div className="rounded-2xl border border-[#E2E7EF] bg-white p-4 shadow-2xs">
           <span className="text-[11px] font-bold text-[#64748B] flex items-center justify-between">
-            Response Time <Clock className="h-4 w-4 text-[#394BC5]" />
+            Response Time <Clock className="h-4 w-4 text-[#005859]" />
           </span>
-          <p className="font-mono text-2xl md:text-3xl font-extrabold text-[#394BC5] mt-1">3.1 min</p>
+          <p className="font-mono text-2xl md:text-3xl font-extrabold text-[#005859] mt-1">3.1 min</p>
           <p className="text-[10px] text-[#8E9FB8] mt-1">Median time to relief</p>
         </div>
 
@@ -138,7 +138,7 @@ function AnalyticsPage() {
           <span className="text-[11px] font-bold text-[#64748B] flex items-center justify-between">
             Support Completion <HeartHandshake className="h-4 w-4 text-[#B7791F]" />
           </span>
-          <p className="font-mono text-2xl md:text-3xl font-extrabold text-[#172033] mt-1">93.8%</p>
+          <p className="font-mono text-2xl md:text-3xl font-extrabold text-[#08242d] mt-1">93.8%</p>
           <p className="text-[10px] text-[#8E9FB8] mt-1">60 of 64 requests fulfilled</p>
         </div>
 
@@ -156,7 +156,7 @@ function AnalyticsPage() {
         {/* Chart 1: Strain by Shift Period */}
         <Card className="rounded-2xl border-[#E2E7EF] p-5 shadow-2xs bg-white">
           <CardHeader className="p-0 pb-3 border-b border-[#EEF2F7]">
-            <CardTitle className="text-sm font-extrabold text-[#172033]">
+            <CardTitle className="text-sm font-extrabold text-[#08242d]">
               Aggregated Physiological Strain by Shift Time
             </CardTitle>
             <p className="text-xs text-[#64748B]">Distribution of normal, moderate, and elevated strain across shift hours</p>
@@ -180,7 +180,7 @@ function AnalyticsPage() {
         {/* Chart 2: Notification Acknowledgment Rate & Latency */}
         <Card className="rounded-2xl border-[#E2E7EF] p-5 shadow-2xs bg-white">
           <CardHeader className="p-0 pb-3 border-b border-[#EEF2F7]">
-            <CardTitle className="text-sm font-extrabold text-[#172033]">
+            <CardTitle className="text-sm font-extrabold text-[#08242d]">
               Supervisor Response Latency & Mobile Ack Rate
             </CardTitle>
             <p className="text-xs text-[#64748B]">Daily median minutes to relief response vs mobile acknowledgment %</p>
@@ -190,11 +190,11 @@ function AnalyticsPage() {
               <LineChart data={RESPONSE_LATENCY_DATA}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis dataKey="day" stroke="#8E9FB8" fontSize={11} tickLine={false} />
-                <YAxis yAxisId="left" stroke="#394BC5" fontSize={11} tickLine={false} />
+                <YAxis yAxisId="left" stroke="#005859" fontSize={11} tickLine={false} />
                 <YAxis yAxisId="right" orientation="right" domain={[80, 100]} stroke="#16835E" fontSize={11} tickLine={false} />
                 <Tooltip />
                 <Legend />
-                <Line yAxisId="left" type="monotone" dataKey="avgResponseMin" name="Avg Response (min)" stroke="#394BC5" strokeWidth={2.5} dot={{ r: 4 }} />
+                <Line yAxisId="left" type="monotone" dataKey="avgResponseMin" name="Avg Response (min)" stroke="#005859" strokeWidth={2.5} dot={{ r: 4 }} />
                 <Line yAxisId="right" type="monotone" dataKey="ackRate" name="Ack Rate (%)" stroke="#16835E" strokeWidth={2.5} dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
@@ -203,10 +203,10 @@ function AnalyticsPage() {
       </div>
 
       {/* Ethical Statement Footer */}
-      <div className="rounded-2xl border border-[#C9F3DD] bg-[#E1F4E9]/40 p-4 text-xs text-[#142039] flex items-start gap-3">
+      <div className="rounded-2xl border border-[#C9F3DD] bg-[#E1F4E9]/40 p-4 text-xs text-[#08242d] flex items-start gap-3">
         <Info className="h-4 w-4 shrink-0 text-[#16835E] mt-0.5" />
         <p className="leading-relaxed">
-          <strong>Responsible Healthcare Workforce Policy:</strong> Nurse Care Monitor does not compile individual performance rankings or punitive scores based on physiological data. Analytics are aggregated for staffing adequacy, break scheduling, and institutional support planning.
+          <strong>Responsible Healthcare Workforce Policy:</strong> NurseCare Monitor does not compile individual performance rankings or punitive scores based on physiological data. Analytics are aggregated for staffing adequacy, break scheduling, and institutional support planning.
         </p>
       </div>
     </div>

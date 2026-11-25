@@ -30,10 +30,12 @@ import {
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { BrandLoading } from "@/components/SplashScreen";
 import { WeCareLogo } from "@/components/brand";
 import { useStore, type StressLevel, WARDS } from "@/lib/store";
 import { LanguageToggle, useT, type StringKey } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import "./wecare-overview.css";
 
 interface NavItem {
   to: string;
@@ -49,7 +51,7 @@ interface NavSection {
 }
 
 export function AppShell({ title, children }: { title: string; children: ReactNode }) {
-  const { user, logout, isDemoMode, activeWard, setActiveWard, notifications, supportRequests } = useStore();
+  const { user, loading, logout, isDemoMode, activeWard, setActiveWard, notifications, supportRequests } = useStore();
   const t = useT();
   const navigate = useNavigate();
   const location = useLocation();
@@ -173,11 +175,11 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
   ];
 
   return (
-    <div className="flex min-h-screen bg-[#F7F8F5] text-[#192C28] font-sans antialiased selection:bg-[#C6E2D6] selection:text-[#192C28]">
+    <div className="wc-shell flex min-h-screen bg-[#F4F8F8] text-[#08242d] font-sans antialiased selection:bg-[#ccece7] selection:text-[#08242d]">
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-[#192C28]/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-[#08242d]/40 backdrop-blur-xs md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
@@ -186,7 +188,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col bg-[#FFFFFF] border-r border-[#E1E6E1] text-[#192C28] md:static md:translate-x-0 md:shrink-0 relative group",
+          "wc-shell-nav fixed inset-y-0 left-0 z-50 flex flex-col bg-[#FFFFFF] border-r border-[#E1E6E1] text-[#08242d] md:relative md:translate-x-0 md:shrink-0 group",
           isResizing ? "" : "transition-[width] duration-200 ease-out",
           mobileOpen ? "translate-x-0 w-[230px]" : "-translate-x-full md:translate-x-0",
           isCollapsed ? "md:w-[64px]" : ""
@@ -206,8 +208,8 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
               isCollapsed ? "justify-center px-2" : "justify-between px-3.5"
             )}
           >
-            <Link to="/" className="flex items-center min-w-0" title="Nurse Care Monitor">
-              <WeCareLogo size={isCollapsed ? "sm" : "md"} variant="pine" withSubtitle={!isCollapsed} />
+            <Link to="/" className="flex items-center min-w-0" title="NurseCare Monitor">
+              <WeCareLogo size={isCollapsed ? "sm" : "md"} variant="pine" compact={isCollapsed} withSubtitle={!isCollapsed} />
             </Link>
 
             {!isCollapsed && (
@@ -215,14 +217,14 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
                 <button
                   onClick={toggleWideMode}
                   title={sidebarWidth >= 260 ? "Reset sidebar width" : "Widen sidebar"}
-                  className="rounded-md p-1 text-[#64766E] hover:bg-[#EFF3F0] hover:text-[#192C28] transition-colors"
+                  className="rounded-md p-1 text-[#64766E] hover:bg-[#edf5f4] hover:text-[#08242d] transition-colors"
                 >
                   {sidebarWidth >= 260 ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
                 </button>
                 <button
                   onClick={toggleCollapse}
                   title="Collapse sidebar"
-                  className="rounded-md p-1 text-[#64766E] hover:bg-[#EFF3F0] hover:text-[#192C28] transition-colors"
+                  className="rounded-md p-1 text-[#64766E] hover:bg-[#edf5f4] hover:text-[#08242d] transition-colors"
                 >
                   <PanelLeftClose className="h-3.5 w-3.5" />
                 </button>
@@ -231,8 +233,9 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
 
             {/* Mobile close */}
             <button
+              aria-label="Close navigation"
               onClick={() => setMobileOpen(false)}
-              className="rounded-md p-1 text-[#64766E] hover:bg-[#EFF3F0] hover:text-[#192C28] md:hidden"
+              className="rounded-md p-1 text-[#64766E] hover:bg-[#edf5f4] hover:text-[#08242d] md:hidden"
             >
               <X className="h-4 w-4" />
             </button>
@@ -244,7 +247,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
               <button
                 onClick={toggleCollapse}
                 title="Expand sidebar"
-                className="grid h-7 w-7 place-items-center rounded-md bg-[#EFF3F0] text-[#244D45] hover:bg-[#E6EFEA] transition-colors"
+                className="grid h-7 w-7 place-items-center rounded-md bg-[#edf5f4] text-[#005859] hover:bg-[#e4f2f0] transition-colors"
               >
                 <PanelLeftOpen className="h-3.5 w-3.5" />
               </button>
@@ -282,15 +285,15 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
                             ? "justify-center p-2"
                             : "justify-between px-2.5 py-1.5",
                           isActive
-                            ? "bg-[#EFF3F0] text-[#244D45] font-semibold"
-                            : "text-[#4A5D54] hover:bg-[#F5F7F5] hover:text-[#192C28]"
+                            ? "bg-[#edf5f4] text-[#005859] font-semibold"
+                            : "text-[#4A5D54] hover:bg-[#F5F7F5] hover:text-[#08242d]"
                         )}
                       >
                         <div className={cn("flex items-center gap-2.5 min-w-0", isCollapsed ? "justify-center" : "")}>
                           <Icon
                             className={cn(
                               "h-4 w-4 shrink-0 transition-colors",
-                              isActive ? "text-[#244D45]" : "text-[#75887E] group-hover:text-[#244D45]"
+                              isActive ? "text-[#005859]" : "text-[#75887E] group-hover:text-[#005859]"
                             )}
                           />
                           {!isCollapsed && <span className="truncate">{item.label}</span>}
@@ -302,8 +305,8 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
                               item.highlight
                                 ? "bg-[#C24152] text-white"
                                 : isActive
-                                ? "bg-[#C6E2D6] text-[#244D45]"
-                                : "bg-[#EFF3F0] text-[#64766E]"
+                                ? "bg-[#ccece7] text-[#005859]"
+                                : "bg-[#edf5f4] text-[#64766E]"
                             )}
                           >
                             {item.badge}
@@ -322,16 +325,16 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
 
           {/* Quiet Human-in-the-Loop Philosophy footer indicator */}
           {!isCollapsed ? (
-            <div className="mx-3 my-2 flex items-center gap-2 rounded-lg bg-[#F7F8F5] px-2.5 py-1.5 text-xs border border-[#E1E6E1]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#244D45] shrink-0" />
+            <div className="mx-3 my-2 flex items-center gap-2 rounded-lg bg-[#F4F8F8] px-2.5 py-1.5 text-xs border border-[#E1E6E1]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#005859] shrink-0" />
               <div className="leading-tight min-w-0">
-                <span className="block text-[11px] font-semibold text-[#192C28] truncate">Human-led care</span>
+                <span className="block text-[11px] font-semibold text-[#08242d] truncate">Human-led care</span>
                 <span className="block text-[10px] text-[#64766E] truncate">AI estimates, human judgment</span>
               </div>
             </div>
           ) : (
             <div className="my-2 flex justify-center" title="Human-led care: AI estimates, human judgment">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#244D45]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#005859]" />
             </div>
           )}
 
@@ -339,12 +342,12 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
           <div className="border-t border-[#E1E6E1] p-2.5 bg-[#FFFFFF]">
             <div className={cn("flex items-center", isCollapsed ? "justify-center flex-col gap-1.5" : "justify-between gap-2")}>
               <div className="flex items-center gap-2 min-w-0">
-                <div className="grid h-7 w-7 place-items-center rounded-full bg-[#E6EFEA] text-[11px] font-bold text-[#244D45] shrink-0">
+                <div className="grid h-7 w-7 place-items-center rounded-full bg-[#e4f2f0] text-[11px] font-bold text-[#005859] shrink-0">
                   {user?.full_name ? user.full_name[0].toUpperCase() : "S"}
                 </div>
                 {!isCollapsed && (
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-semibold text-[#192C28]">
+                    <p className="truncate text-xs font-semibold text-[#08242d]">
                       {user?.full_name || "Dr. Anika Rahman"}
                     </p>
                     <span className="text-[10px] text-[#64766E] block truncate">
@@ -359,7 +362,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
                   navigate({ to: "/landing" });
                 }}
                 title="Sign out"
-                className="rounded-md p-1 text-[#64766E] transition-colors hover:bg-[#EFF3F0] hover:text-[#C24152]"
+                className="rounded-md p-1 text-[#64766E] transition-colors hover:bg-[#edf5f4] hover:text-[#C24152]"
               >
                 <LogOut className="h-3.5 w-3.5" />
               </button>
@@ -372,7 +375,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
           <div
             onMouseDown={() => setIsResizing(true)}
             title="Drag to resize sidebar width"
-            className="hidden md:block absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#244D45]/40 transition-colors"
+            className="hidden md:block absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#005859]/40 transition-colors"
           />
         )}
       </aside>
@@ -380,12 +383,13 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
       {/* Main Workspace Area */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Minimal, unified top navigation */}
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[#E1E6E1] bg-[#FFFFFF] px-4 md:px-6">
+        <header className="wc-shell-header sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[#E1E6E1] bg-[#FFFFFF] px-4 md:px-6">
           {/* Left: Mobile trigger, Sidebar Toggle & Breadcrumb */}
           <div className="flex items-center gap-3">
             <button
+              aria-label="Open navigation"
               onClick={() => setMobileOpen(true)}
-              className="rounded-md p-1.5 text-[#64766E] hover:bg-[#EFF3F0] md:hidden"
+              className="rounded-md p-1.5 text-[#64766E] hover:bg-[#edf5f4] md:hidden"
             >
               <Menu className="h-4 w-4" />
             </button>
@@ -393,29 +397,30 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
             <button
               onClick={toggleCollapse}
               title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              className="hidden md:inline-flex items-center gap-1.5 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-2 py-1 text-xs font-medium text-[#64766E] hover:text-[#192C28] hover:border-[#244D45] transition-colors"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-2 py-1 text-xs font-medium text-[#64766E] hover:text-[#08242d] hover:border-[#005859] transition-colors"
             >
-              <PanelLeft className="h-3.5 w-3.5 text-[#244D45]" />
+              <PanelLeft className="h-3.5 w-3.5 text-[#005859]" />
               <span className="text-[11px]">
                 {isCollapsed ? "Expand" : "Collapse"}
               </span>
             </button>
 
+            <span className="md:hidden"><WeCareLogo compact /></span>
             <div className="flex items-center gap-1.5 text-xs text-[#64766E]">
-              <span>Nurse Care Monitor</span>
+              <span className="brand-breadcrumb">NurseCare Monitor</span>
               <span className="text-[#A5B2AC]">/</span>
-              <strong className="text-[#192C28] font-semibold">{title}</strong>
+              <strong className="text-[#08242d] font-semibold">{title}</strong>
             </div>
           </div>
 
           {/* Center: Ward Selector */}
           <div className="hidden sm:flex items-center gap-1.5 rounded-md border border-[#E1E6E1] bg-[#FFFFFF] px-2.5 py-1 text-xs text-[#64766E]">
-            <Building2 className="h-3.5 w-3.5 text-[#244D45]" />
+            <Building2 className="h-3.5 w-3.5 text-[#005859]" />
             <span className="text-[#64766E]">Ward:</span>
             <select
               value={activeWard}
               onChange={(e) => setActiveWard(e.target.value)}
-              className="bg-transparent font-medium text-[#192C28] outline-hidden cursor-pointer text-xs"
+              className="bg-transparent font-medium text-[#08242d] outline-hidden cursor-pointer text-xs"
             >
               <option value="all">All Wards</option>
               {WARDS.map((w) => (
@@ -430,7 +435,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
           <div className="flex items-center gap-2">
             <Link
               to="/notifications"
-              className="relative rounded-md border border-[#E1E6E1] p-1.5 text-[#64766E] hover:bg-[#EFF3F0] hover:text-[#192C28] transition-colors"
+              className="relative rounded-md border border-[#E1E6E1] p-1.5 text-[#64766E] hover:bg-[#edf5f4] hover:text-[#08242d] transition-colors"
               title="Notifications"
             >
               <Bell className="h-3.5 w-3.5" />
@@ -444,14 +449,15 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
             <LanguageToggle />
 
             <div className="hidden md:flex items-center gap-2 pl-2 border-l border-[#E1E6E1]">
-              <span className="h-2 w-2 rounded-full bg-[#244D45]" />
-              <span className="text-xs font-medium text-[#192C28]">Morning Shift</span>
+              <span className="h-2 w-2 rounded-full bg-[#005859]" />
+              <span className="text-xs font-medium text-[#08242d]">{isDemoMode ? "Demo workspace" : "Supervisor workspace"}</span>
             </div>
           </div>
         </header>
 
         {/* Main Workspace Content */}
-        <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-[1600px] w-full mx-auto">
+        <main className="wc-shell-main flex-1 p-4 md:p-6 lg:p-8 max-w-[1600px] w-full mx-auto">
+          {loading && <BrandLoading />}
           {children}
         </main>
       </div>
@@ -466,9 +472,9 @@ const STATUS_CONFIG: Record<
   normal: {
     label: "Normal",
     labelKey: "stress.normal",
-    bgCls: "bg-[#E6EFEA]",
-    textCls: "text-[#244D45]",
-    dotCls: "bg-[#244D45]",
+    bgCls: "bg-[#e4f2f0]",
+    textCls: "text-[#005859]",
+    dotCls: "bg-[#005859]",
   },
   moderate: {
     label: "Moderate",
@@ -487,7 +493,7 @@ const STATUS_CONFIG: Record<
   unknown: {
     label: "Unknown",
     labelKey: "stress.unknown",
-    bgCls: "bg-[#EFF3F0]",
+    bgCls: "bg-[#edf5f4]",
     textCls: "text-[#64766E]",
     dotCls: "bg-[#64766E]",
   },
@@ -497,7 +503,7 @@ export function StressBadge({ level, stale }: { level?: StressLevel | undefined;
   const t = useT();
   if (!level) {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF3F0] px-2 py-0.5 text-xs font-medium text-[#64766E]">
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#edf5f4] px-2 py-0.5 text-xs font-medium text-[#64766E]">
         <span className="h-1.5 w-1.5 rounded-full bg-[#64766E]" />
         {t("stress.none") || "Unknown"}
       </span>

@@ -1,3 +1,4 @@
+import { BrandLoading } from "@/components/SplashScreen";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Activity,
@@ -31,9 +32,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/nurses/$id")({
   head: () => ({
     meta: [
-      { title: "Nurse Details & Physiological Context — Nurse Care Monitor" },
+      { title: "Nurse Details & Physiological Context — NurseCare Monitor" },
       { name: "description", content: "Individual physiological sensor readings, AI stress trend and intervention history." },
-      { property: "og:title", content: "Nurse Details & Physiological Context — Nurse Care Monitor" },
+      { property: "og:title", content: "Nurse Details & Physiological Context — NurseCare Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -72,7 +73,7 @@ function MetricCard({
         />
       </div>
       <div className="mt-2 flex items-baseline gap-1">
-        <span className="font-mono text-2xl font-extrabold text-[#172033] tabular-nums">
+        <span className="font-mono text-2xl font-extrabold text-[#08242d] tabular-nums">
           {value ?? "—"}
         </span>
         {value != null && unit && (
@@ -112,7 +113,7 @@ function NurseDetails() {
   const [timeRange, setTimeRange] = useState<"30m" | "1h" | "shift">("30m");
 
   if (q.isLoading) {
-    return <p className="text-sm font-semibold text-[#64748B]">{t("common.loading")}</p>;
+    return <BrandLoading />;
   }
 
   const nurse = q.data?.nurse;
@@ -154,7 +155,7 @@ function NurseDetails() {
     <div className="space-y-6">
       {/* Top Breadcrumb & Quick Actions Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button variant="ghost" size="sm" asChild className="w-fit text-xs font-bold text-[#64748B] hover:text-[#172033]">
+        <Button variant="ghost" size="sm" asChild className="w-fit text-xs font-bold text-[#64748B] hover:text-[#08242d]">
           <Link to="/nurses">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Nurse Monitoring
           </Link>
@@ -164,7 +165,7 @@ function NurseDetails() {
           <Button
             size="sm"
             onClick={handleQuickCheckin}
-            className="h-8 rounded-xl bg-[#394BC5] px-3.5 text-xs font-extrabold text-white hover:bg-[#303eaa]"
+            className="h-8 rounded-xl bg-[#005859] px-3.5 text-xs font-extrabold text-white hover:bg-[#076669]"
           >
             <Bell className="mr-1.5 h-3.5 w-3.5" />
             Request Private Check-in
@@ -174,7 +175,7 @@ function NurseDetails() {
             size="sm"
             variant="outline"
             asChild
-            className="h-8 rounded-xl border-[#D9E0EB] text-xs font-bold text-[#172033]"
+            className="h-8 rounded-xl border-[#D9E0EB] text-xs font-bold text-[#08242d]"
           >
             <Link to="/support">
               <HeartHandshake className="mr-1.5 h-3.5 w-3.5 text-[#16835E]" />
@@ -188,13 +189,13 @@ function NurseDetails() {
       <div className="rounded-2xl border border-[#E2E7EF] bg-white p-6 shadow-2xs">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
-            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-[#E5E9FD] text-xl font-black text-[#394BC5] shadow-xs">
+            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-[#E5E9FD] text-xl font-black text-[#005859] shadow-xs">
               {nurse.full_name.split(" ").slice(-2).map((x) => x[0]).join("")}
             </div>
             <div>
               <div className="flex items-center gap-2.5">
-                <h2 className="text-xl font-extrabold text-[#172033] tracking-tight">{nurse.full_name}</h2>
-                <span className="rounded-md bg-[#F3F5F8] px-2 py-0.5 font-mono text-xs font-bold text-[#64748B]">
+                <h2 className="text-xl font-extrabold text-[#08242d] tracking-tight">{nurse.full_name}</h2>
+                <span className="rounded-md bg-[#F4F8F8] px-2 py-0.5 font-mono text-xs font-bold text-[#64748B]">
                   {nurse.nurse_code}
                 </span>
                 <span className="inline-flex items-center gap-1 rounded-full bg-[#E1F4E9] px-2.5 py-0.5 text-[11px] font-extrabold text-[#16835E]">
@@ -278,7 +279,7 @@ function NurseDetails() {
         <Card className="rounded-2xl border-[#E2E7EF] p-5 shadow-2xs bg-white lg:col-span-7">
           <div className="flex items-center justify-between pb-3 border-b border-[#E2E7EF]">
             <div>
-              <CardTitle className="text-sm font-extrabold text-[#172033]">
+              <CardTitle className="text-sm font-extrabold text-[#08242d]">
                 Physiological Trend Over Time
               </CardTitle>
               <p className="text-xs text-[#64748B]">Continuous heart rate (bpm) and estimated strain curve</p>
@@ -290,7 +291,7 @@ function NurseDetails() {
                   onClick={() => setTimeRange(r)}
                   className={cn(
                     "rounded-md px-2 py-1 text-[11px] font-bold uppercase",
-                    timeRange === r ? "bg-[#394BC5] text-white" : "bg-[#F3F5F8] text-[#64748B] hover:text-[#172033]"
+                    timeRange === r ? "bg-[#005859] text-white" : "bg-[#F4F8F8] text-[#64748B] hover:text-[#08242d]"
                   )}
                 >
                   {r}
@@ -304,8 +305,8 @@ function NurseDetails() {
               <AreaChart data={trendData}>
                 <defs>
                   <linearGradient id="hrColor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={isHigh ? "#C24152" : "#394BC5"} stopOpacity={0.25} />
-                    <stop offset="95%" stopColor={isHigh ? "#C24152" : "#394BC5"} stopOpacity={0.0} />
+                    <stop offset="5%" stopColor={isHigh ? "#C24152" : "#005859"} stopOpacity={0.25} />
+                    <stop offset="95%" stopColor={isHigh ? "#C24152" : "#005859"} stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="time" stroke="#8E9FB8" fontSize={11} tickLine={false} />
@@ -315,8 +316,8 @@ function NurseDetails() {
                     if (active && payload && payload.length) {
                       return (
                         <div className="rounded-xl border border-[#E2E7EF] bg-white p-2.5 shadow-lg text-xs">
-                          <p className="font-extrabold text-[#172033]">{payload[0].payload.time}</p>
-                          <p className="font-mono text-[#394BC5] font-bold">HR: {payload[0].value} bpm</p>
+                          <p className="font-extrabold text-[#08242d]">{payload[0].payload.time}</p>
+                          <p className="font-mono text-[#005859] font-bold">HR: {payload[0].value} bpm</p>
                           <p className="text-[10px] text-[#64748B]">EDA: {payload[0].payload.eda} µS</p>
                         </div>
                       );
@@ -327,7 +328,7 @@ function NurseDetails() {
                 <Area
                   type="monotone"
                   dataKey="hr"
-                  stroke={isHigh ? "#C24152" : "#394BC5"}
+                  stroke={isHigh ? "#C24152" : "#005859"}
                   strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#hrColor)"
@@ -345,18 +346,18 @@ function NurseDetails() {
         <Card className="rounded-2xl border-[#E2E7EF] p-5 shadow-2xs bg-white lg:col-span-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 pb-3 border-b border-[#E2E7EF]">
-              <Sparkles className="h-4 w-4 text-[#394BC5]" />
-              <CardTitle className="text-sm font-extrabold text-[#172033]">
+              <Sparkles className="h-4 w-4 text-[#005859]" />
+              <CardTitle className="text-sm font-extrabold text-[#08242d]">
                 AI Model Reasoning & Attribution
               </CardTitle>
             </div>
 
             <div className="mt-4 space-y-3">
               <div className="rounded-xl border border-[#E2E7EF] bg-[#F8FAFC] p-3.5">
-                <span className="text-[10px] font-extrabold tracking-wider uppercase text-[#394BC5]">
+                <span className="text-[10px] font-extrabold tracking-wider uppercase text-[#005859]">
                   Primary Feature Attribution
                 </span>
-                <p className="mt-1 text-xs font-semibold text-[#172033] leading-relaxed">
+                <p className="mt-1 text-xs font-semibold text-[#08242d] leading-relaxed">
                   {isHigh
                     ? "Heart rate has remained consistently elevated (+22 bpm above personal baseline) during a period of relatively low movement, paired with elevated phasic electrodermal activity."
                     : "Sensor readings reflect a steady physiological baseline consistent with routine ward activity and healthy heart rate variability."}
@@ -366,7 +367,7 @@ function NurseDetails() {
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between py-1 border-b border-[#EEF2F7]">
                   <span className="text-[#64748B]">Prediction Confidence</span>
-                  <span className="font-mono font-bold text-[#172033]">
+                  <span className="font-mono font-bold text-[#08242d]">
                     {latest?.confidence != null ? `${Math.round(latest.confidence * 100)}%` : "89%"}
                   </span>
                 </div>
@@ -376,11 +377,11 @@ function NurseDetails() {
                 </div>
                 <div className="flex justify-between py-1 border-b border-[#EEF2F7]">
                   <span className="text-[#64748B]">Model Architecture</span>
-                  <span className="font-mono text-[#172033]">RandomForest + OOD Shield</span>
+                  <span className="font-mono text-[#08242d]">RandomForest + OOD Shield</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-[#EEF2F7]">
                   <span className="text-[#64748B]">Model Version</span>
-                  <span className="font-mono text-[#172033]">{latest?.model_version ?? "v1.2-classical"}</span>
+                  <span className="font-mono text-[#08242d]">{latest?.model_version ?? "v1.2-classical"}</span>
                 </div>
               </div>
             </div>
@@ -399,7 +400,7 @@ function NurseDetails() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[22rem_1fr] items-start">
         <Card className="rounded-2xl border-[#E2E7EF] p-5 shadow-2xs bg-white">
           <CardHeader className="p-0 pb-3 border-b border-[#E2E7EF]">
-            <CardTitle className="text-sm font-extrabold text-[#172033]">
+            <CardTitle className="text-sm font-extrabold text-[#08242d]">
               Record Supervisor Action
             </CardTitle>
           </CardHeader>
@@ -415,7 +416,7 @@ function NurseDetails() {
         {/* Action History Table */}
         <Card className="rounded-2xl border-[#E2E7EF] shadow-2xs bg-white overflow-hidden">
           <CardHeader className="p-4 border-b border-[#E2E7EF]">
-            <CardTitle className="text-sm font-extrabold text-[#172033]">
+            <CardTitle className="text-sm font-extrabold text-[#08242d]">
               Supervisor Intervention History
             </CardTitle>
           </CardHeader>
@@ -441,16 +442,16 @@ function NurseDetails() {
                     <TableCell className="whitespace-nowrap text-xs text-[#64748B] font-mono">
                       {fmtTimeSec(a.created_at)}
                     </TableCell>
-                    <TableCell className="text-xs font-bold text-[#172033]">
+                    <TableCell className="text-xs font-bold text-[#08242d]">
                       {t(`action.${a.action_type}` as StringKey) || a.action_type}
                       {a.prediction_id && (
-                        <span className="ml-1.5 text-[10px] text-[#394BC5] font-normal">
+                        <span className="ml-1.5 text-[10px] text-[#005859] font-normal">
                           • linked to estimate
                         </span>
                       )}
                     </TableCell>
                     <TableCell className="max-w-xs text-xs text-[#64748B]">{a.note || "—"}</TableCell>
-                    <TableCell className="text-xs font-semibold text-[#172033]">
+                    <TableCell className="text-xs font-semibold text-[#08242d]">
                       {names.data?.get(a.created_by) ?? "Lead Supervisor"}
                     </TableCell>
                   </TableRow>

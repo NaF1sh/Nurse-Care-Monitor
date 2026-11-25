@@ -19,9 +19,9 @@ import { clockLabelT, clockStateT, useT, type StringKey } from "@/lib/i18n";
 export const Route = createFileRoute("/simulation")({
   head: () => ({
     meta: [
-      { title: "Live Simulation — Nurse Stress Monitor" },
+      { title: "Live Simulation — NurseCare Monitor" },
       { name: "description", content: "Demo simulation with synthetic sensor data — not real patient data." },
-      { property: "og:title", content: "Live Simulation — Nurse Stress Monitor" },
+      { property: "og:title", content: "Live Simulation — NurseCare Monitor" },
       { property: "og:description", content: "Demo simulation with synthetic sensor data — not real patient data." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -1,3 +1,4 @@
+import { BrandLoading } from "@/components/SplashScreen";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell, StressBadge } from "@/components/app-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,9 +11,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/predictions")({
   head: () => ({
     meta: [
-      { title: "Prediction Summary — Nurse Stress Monitor" },
+      { title: "Prediction Summary — NurseCare Monitor" },
       { name: "description", content: "Summary of all AI stress predictions per nurse." },
-      { property: "og:title", content: "Prediction Summary — Nurse Stress Monitor" },
+      { property: "og:title", content: "Prediction Summary — NurseCare Monitor" },
       { property: "og:description", content: "Summary of all AI stress predictions per nurse." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,7 +31,7 @@ function Predictions() {
   const t = useT();
   const nurses = useNurses();
   const preds = useAllPredictions();
-  if (nurses.isLoading || preds.isLoading) return <p className="text-sm text-muted-foreground">{t("common.loading")}</p>;
+  if (nurses.isLoading || preds.isLoading) return <BrandLoading />;
   if (nurses.error || preds.error) return <p className="text-sm text-destructive">{t("pred.error")}</p>;
 
   const all = preds.data ?? [];
