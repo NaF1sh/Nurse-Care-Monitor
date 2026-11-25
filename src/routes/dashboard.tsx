@@ -41,9 +41,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Supervisor Overview — WeCare" },
+      { title: "Supervisor Overview — Nurse Care Monitor" },
       { name: "description", content: "Intelligent nurse monitoring and workforce coordination dashboard." },
-      { property: "og:title", content: "Supervisor Overview — WeCare" },
+      { property: "og:title", content: "Supervisor Overview — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Spot nurse strain early. Support teams sooner." },
@@ -859,7 +859,7 @@ export function Dashboard() {
               </div>
               <div className="rounded-md border border-[#E1E6E1] bg-[#FFFFFF] p-2.5 shadow-2xs">
                 <div className="flex items-center justify-between text-[10px]">
-                  <span className="font-semibold text-[#244D45]">WeCare Hospital</span>
+                  <span className="font-semibold text-[#244D45]">Nurse Care Monitor</span>
                   <span className="text-[#8A9A92]">Now</span>
                 </div>
                 <p className="mt-1 text-xs font-medium text-[#192C28]">

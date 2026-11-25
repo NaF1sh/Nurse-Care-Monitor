@@ -24,9 +24,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/staff")({
   head: () => ({
     meta: [
-      { title: "Staff Directory & Hospital Workforce — WeCare" },
+      { title: "Staff Directory & Hospital Workforce — Nurse Care Monitor" },
       { name: "description", content: "Unified hospital personnel directory for nurses, supervisors, and clinical support staff." },
-      { property: "og:title", content: "Staff Directory & Hospital Workforce — WeCare" },
+      { property: "og:title", content: "Staff Directory & Hospital Workforce — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

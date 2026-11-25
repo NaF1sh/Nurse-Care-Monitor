@@ -16,9 +16,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/nurses/")({
   head: () => ({
     meta: [
-      { title: "Nurse Roster & Workforce Management — WeCare" },
+      { title: "Nurse Roster & Workforce Management — Nurse Care Monitor" },
       { name: "description", content: "Manage nurses, clinical ward assignments, supervisors and wearable pairing." },
-      { property: "og:title", content: "Nurse Roster & Workforce Management — WeCare" },
+      { property: "og:title", content: "Nurse Roster & Workforce Management — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

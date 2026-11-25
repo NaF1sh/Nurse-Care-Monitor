@@ -206,7 +206,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
               isCollapsed ? "justify-center px-2" : "justify-between px-3.5"
             )}
           >
-            <Link to="/" className="flex items-center min-w-0" title="WeCare Workspace">
+            <Link to="/" className="flex items-center min-w-0" title="Nurse Care Monitor">
               <WeCareLogo size={isCollapsed ? "sm" : "md"} variant="pine" withSubtitle={!isCollapsed} />
             </Link>
 
@@ -402,7 +402,7 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
             </button>
 
             <div className="flex items-center gap-1.5 text-xs text-[#64766E]">
-              <span>WeCare</span>
+              <span>Nurse Care Monitor</span>
               <span className="text-[#A5B2AC]">/</span>
               <strong className="text-[#192C28] font-semibold">{title}</strong>
             </div>

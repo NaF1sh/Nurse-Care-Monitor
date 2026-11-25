@@ -20,9 +20,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/wards")({
   head: () => ({
     meta: [
-      { title: "Ward Management & Workforce Capacity — WeCare" },
+      { title: "Ward Management & Workforce Capacity — Nurse Care Monitor" },
       { name: "description", content: "Hospital ward status, assigned staff, active wearable monitoring and assistance requests." },
-      { property: "og:title", content: "Ward Management & Workforce Capacity — WeCare" },
+      { property: "og:title", content: "Ward Management & Workforce Capacity — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

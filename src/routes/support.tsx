@@ -22,9 +22,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/support")({
   head: () => ({
     meta: [
-      { title: "Support Coordination & Workforce Relief — WeCare" },
+      { title: "Support Coordination & Workforce Relief — Nurse Care Monitor" },
       { name: "description", content: "11-step human-led support coordination workflow, peer assistance and break coverage." },
-      { property: "og:title", content: "Support Coordination & Workforce Relief — WeCare" },
+      { property: "og:title", content: "Support Coordination & Workforce Relief — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

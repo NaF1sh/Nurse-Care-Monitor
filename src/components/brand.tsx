@@ -38,16 +38,16 @@ export function WeCareLogo({
         </svg>
       </span>
 
-      {/* Brand Wordmark: wecare in Ink (#192C28) with subtle sage accent dot */}
-      <div className="flex flex-col leading-none">
+      {/* Brand Wordmark: Nurse Care Monitor with subtitle */}
+      <div className="flex flex-col leading-tight">
         <span
           className={cn(
-            "font-bold tracking-tight text-[#192C28] flex items-center",
-            size === "sm" ? "text-base" : size === "lg" ? "text-2xl" : "text-lg"
+            "font-bold tracking-tight text-[#192C28] flex items-center leading-none",
+            size === "sm" ? "text-sm" : size === "lg" ? "text-xl" : "text-base"
           )}
         >
-          wecare
-          <span className="text-[#244D45] ml-0.5 font-bold">.</span>
+          Nurse Care
+          <span className="text-[#244D45] ml-1 font-semibold">Monitor</span>
         </span>
         {withSubtitle && (
           <span className="text-[9px] font-semibold tracking-wider text-[#64766E] uppercase mt-0.5">
