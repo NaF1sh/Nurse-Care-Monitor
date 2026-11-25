@@ -1,6 +1,6 @@
-# Welcome to your Lovable project
+# Nurse Care Monitor
 
-This project was built with [Lovable](https://lovable.dev).
+Nurse Care Monitor is a nurse monitoring and workforce support platform built with React, TypeScript, TanStack Start, Tailwind CSS, and Supabase.
 
 ## Build with Lovable
 
@@ -15,8 +15,8 @@ Open your project in the [Lovable editor](https://lovable.dev) and keep building
 Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
+git clone https://github.com/NaF1sh/We-Care.git
+cd We-Care
 npm i
 npm run dev
 ```

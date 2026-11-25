@@ -33,9 +33,9 @@ import { WARDS } from "@/lib/store";
 export const Route = createFileRoute("/analytics")({
   head: () => ({
     meta: [
-      { title: "Analytics & Workforce Reports — WeCare" },
+      { title: "Analytics & Workforce Reports — Nurse Care Monitor" },
       { name: "description", content: "Workforce well-being trends, relief response latency and monitoring coverage metrics." },
-      { property: "og:title", content: "Analytics & Workforce Reports — WeCare" },
+      { property: "og:title", content: "Analytics & Workforce Reports — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -206,7 +206,7 @@ function AnalyticsPage() {
       <div className="rounded-2xl border border-[#C9F3DD] bg-[#E1F4E9]/40 p-4 text-xs text-[#142039] flex items-start gap-3">
         <Info className="h-4 w-4 shrink-0 text-[#16835E] mt-0.5" />
         <p className="leading-relaxed">
-          <strong>Responsible Healthcare Workforce Policy:</strong> WeCare does not compile individual performance rankings or punitive scores based on physiological data. Analytics are aggregated for staffing adequacy, break scheduling, and institutional support planning.
+          <strong>Responsible Healthcare Workforce Policy:</strong> Nurse Care Monitor does not compile individual performance rankings or punitive scores based on physiological data. Analytics are aggregated for staffing adequacy, break scheduling, and institutional support planning.
         </p>
       </div>
     </div>

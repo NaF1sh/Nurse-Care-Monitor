@@ -188,7 +188,7 @@ function SupportCoordinationPage() {
           {/* 11-Step Human Protocol Visual Timeline */}
           <div className="rounded-lg border border-[#E1E6E1] bg-[#FFFFFF] p-4 shadow-xs">
             <h3 className="text-xs font-semibold text-[#192C28] mb-3 flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-[#244D45]" /> WeCare 11-Step Coordination Lifecycle
+              <ShieldCheck className="h-4 w-4 text-[#244D45]" /> Nurse Care Monitor 11-Step Coordination Lifecycle
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {WORKFLOW_STEPS.slice(0, 6).map((s) => (

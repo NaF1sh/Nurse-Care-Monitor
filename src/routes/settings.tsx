@@ -26,9 +26,9 @@ import { LanguageToggle } from "@/lib/i18n";
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
-      { title: "Workspace & System Settings — WeCare" },
+      { title: "Workspace & System Settings — Nurse Care Monitor" },
       { name: "description", content: "Supervisor preferences, privacy settings, demonstration controls and hospital configuration." },
-      { property: "og:title", content: "Workspace & System Settings — WeCare" },
+      { property: "og:title", content: "Workspace & System Settings — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -192,7 +192,7 @@ function SettingsPage() {
             • <strong>Voluntary Participation:</strong> Physiological sensor monitoring requires explicit written consent from nursing staff. Nurses may pause or revoke participation at any time without punitive consequences.
           </p>
           <p>
-            • <strong>Non-Diagnostic Designation:</strong> WeCare is a supportive workforce coordination aid, not a diagnostic medical device. It does not determine clinical competence or clinical staffing ratios automatically.
+            • <strong>Non-Diagnostic Designation:</strong> Nurse Care Monitor is a supportive workforce coordination aid, not a diagnostic medical device. It does not determine clinical competence or clinical staffing ratios automatically.
           </p>
           <p>
             • <strong>Rolling Retention:</strong> High-frequency physiological signals are retained for {retentionDays} days before automatic purge, in compliance with healthcare data protection standards.

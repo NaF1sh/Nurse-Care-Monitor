@@ -110,7 +110,7 @@ function StaffPage() {
         <div>
           <h1 className="text-base font-semibold text-[#192C28]">Hospital Staff & Workforce Directory</h1>
           <p className="text-xs text-[#64766E] mt-0.5">
-            Directory of active nurses, clinical supervisors, and float personnel connected to WeCare.
+            Directory of active nurses, clinical supervisors, and float personnel connected to Nurse Care Monitor.
           </p>
         </div>
 

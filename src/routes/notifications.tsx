@@ -28,9 +28,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/notifications")({
   head: () => ({
     meta: [
-      { title: "Notifications & Staff Messaging — WeCare" },
+      { title: "Notifications & Staff Messaging — Nurse Care Monitor" },
       { name: "description", content: "Targeted push messaging and acknowledgment tracking for hospital workforce." },
-      { property: "og:title", content: "Notifications & Staff Messaging — WeCare" },
+      { property: "og:title", content: "Notifications & Staff Messaging — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -283,7 +283,7 @@ function NotificationsPage() {
                     <span className="grid h-5 w-5 place-items-center rounded-md bg-[#C9F3DD] text-[10px] font-black text-[#142039]">
                       W
                     </span>
-                    <span className="text-[11px] font-extrabold text-[#142039]">WeCare Hospital</span>
+                    <span className="text-[11px] font-extrabold text-[#142039]">Nurse Care Monitor Hospital</span>
                   </div>
                   <span className="text-[9px] text-[#8E9FB8]">now</span>
                 </div>

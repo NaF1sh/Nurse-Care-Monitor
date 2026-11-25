@@ -34,9 +34,9 @@ import { LanguageToggle, useT } from "@/lib/i18n";
 export const Route = createFileRoute("/landing")({
   head: () => ({
     meta: [
-      { title: "WeCare — Nurse Monitoring & Workforce Support Platform" },
+      { title: "Nurse Care Monitor — Nurse Monitoring & Workforce Support Platform" },
       { name: "description", content: "Care for those who care for us. Spot nurse strain early. Support teams sooner." },
-      { property: "og:title", content: "WeCare — Nurse Monitoring & Workforce Support Platform" },
+      { property: "og:title", content: "Nurse Care Monitor — Nurse Monitoring & Workforce Support Platform" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Spot nurse strain early. Support teams sooner." },
@@ -61,7 +61,7 @@ function LandingPage() {
 
   const handleLaunchDemo = () => {
     enterDemoMode();
-    toast.success("Welcome to the WeCare Workspace!", {
+    toast.success("Welcome to the Nurse Care Monitor Workspace!", {
       description: "Supervisor dashboard with full left menu loaded.",
     });
     navigate({ to: "/" });

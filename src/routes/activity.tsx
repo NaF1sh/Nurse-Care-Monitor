@@ -20,9 +20,9 @@ import { useActions } from "@/lib/queries";
 export const Route = createFileRoute("/activity")({
   head: () => ({
     meta: [
-      { title: "Activity History & Audit Trail — WeCare" },
+      { title: "Activity History & Audit Trail — Nurse Care Monitor" },
       { name: "description", content: "Chronological audit log of physiological alerts, dispatched messages and supervisor interventions." },
-      { property: "og:title", content: "Activity History & Audit Trail — WeCare" },
+      { property: "og:title", content: "Activity History & Audit Trail — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -31,9 +31,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/nurses/$id")({
   head: () => ({
     meta: [
-      { title: "Nurse Details & Physiological Context — WeCare" },
+      { title: "Nurse Details & Physiological Context — Nurse Care Monitor" },
       { name: "description", content: "Individual physiological sensor readings, AI stress trend and intervention history." },
-      { property: "og:title", content: "Nurse Details & Physiological Context — WeCare" },
+      { property: "og:title", content: "Nurse Details & Physiological Context — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

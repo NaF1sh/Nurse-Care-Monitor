@@ -24,9 +24,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export const Route = createFileRoute("/ai-devices")({
   head: () => ({
     meta: [
-      { title: "AI Intelligence & Device Architecture — WeCare" },
+      { title: "AI Intelligence & Device Architecture — Nurse Care Monitor" },
       { name: "description", content: "Clinical ML pipeline, WESAD/NURSE datasets, 7.5-min calibration, and wearable device telemetry." },
-      { property: "og:title", content: "AI Intelligence & Device Architecture — WeCare" },
+      { property: "og:title", content: "AI Intelligence & Device Architecture — Nurse Care Monitor" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -120,7 +120,7 @@ function AiDevicesPage() {
             END-TO-END INTELLIGENCE PIPELINE
           </span>
           <h3 className="text-base font-extrabold text-[#172033]">
-            How WeCare Translates Raw Wearable Signals Into Timely Relief
+            How Nurse Care Monitor Translates Raw Wearable Signals Into Timely Relief
           </h3>
         </div>
 
