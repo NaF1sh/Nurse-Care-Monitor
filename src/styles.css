@@ -1,0 +1,125 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", "Geist", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  /* Semantic Health Status Colors */
+  --color-status-normal: var(--status-normal);
+  --color-status-normal-soft: var(--status-normal-soft);
+  --color-status-moderate: var(--status-moderate);
+  --color-status-moderate-soft: var(--status-moderate-soft);
+  --color-status-high: var(--status-high);
+  --color-status-high-soft: var(--status-high-soft);
+  --color-status-unknown: var(--status-unknown);
+  --color-status-unknown-soft: var(--status-unknown-soft);
+
+  --color-chart-1: #244D45;
+  --color-chart-2: #3B7266;
+  --color-chart-3: #B7791F;
+  --color-chart-4: #C24152;
+  --color-chart-5: #64766E;
+
+  /* Sidebar Tokens (Light Warm Minimal Theme) */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Specific Design Palette Tokens */
+  --color-canvas: #F7F8F5;
+  --color-ink: #192C28;
+  --color-pine: #244D45;
+  --color-sage: #C6E2D6;
+}
+
+:root {
+  --radius: 0.5rem;
+  /* Palette: Canvas (#F7F8F5), Surfaces (#FFFFFF), Ink (#192C28), Pine (#244D45), Sage (#C6E2D6), Border (#E1E6E1), Muted (#64766E) */
+  --background: #F7F8F5;
+  --foreground: #192C28;
+  --card: #FFFFFF;
+  --card-foreground: #192C28;
+  --popover: #FFFFFF;
+  --popover-foreground: #192C28;
+  --primary: #244D45;
+  --primary-foreground: #FFFFFF;
+  --secondary: #EFF3F0;
+  --secondary-foreground: #192C28;
+  --muted: #EFF3F0;
+  --muted-foreground: #64766E;
+  --accent: #E6EFEA;
+  --accent-foreground: #244D45;
+  --destructive: #C24152;
+  --destructive-foreground: #FFFFFF;
+  --border: #E1E6E1;
+  --input: #D9DFD9;
+  --ring: #244D45;
+
+  /* Status Colors */
+  --status-normal: #244D45;
+  --status-normal-soft: #E6EFEA;
+  --status-moderate: #B7791F;
+  --status-moderate-soft: #FFF3DD;
+  --status-high: #C24152;
+  --status-high-soft: #FDE8EA;
+  --status-unknown: #64766E;
+  --status-unknown-soft: #EFF3F0;
+
+  /* Sidebar Tokens - Light, warm, subtle separation */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #192C28;
+  --sidebar-primary: #244D45;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #EFF3F0;
+  --sidebar-accent-foreground: #244D45;
+  --sidebar-border: #E1E6E1;
+  --sidebar-ring: #244D45;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

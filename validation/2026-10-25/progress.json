@@ -1,0 +1,28 @@
+{
+  "batch": 32,
+  "elevated_at": "2026-10-25T04:07:20.580Z",
+  "subjects": [
+    {
+      "id": "V-1dc5acbe-1",
+      "elevated": true,
+      "paused": false,
+      "accepted": 3840,
+      "calibration": "active"
+    },
+    {
+      "id": "V-1dc5acbe-2",
+      "elevated": true,
+      "paused": false,
+      "accepted": 3840,
+      "calibration": "active"
+    },
+    {
+      "id": "V-1dc5acbe-3",
+      "elevated": false,
+      "paused": false,
+      "accepted": 3840,
+      "calibration": "active"
+    }
+  ],
+  "finished": true
+}

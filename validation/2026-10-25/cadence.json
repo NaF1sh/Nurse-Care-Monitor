@@ -1,0 +1,26 @@
+[
+  {
+    "subject_id": "V-1dc5acbe-1",
+    "samples": 3840,
+    "min_interval": 0.25,
+    "max_interval": 0.25,
+    "ties": 0,
+    "non_250ms": 0
+  },
+  {
+    "subject_id": "V-1dc5acbe-2",
+    "samples": 3840,
+    "min_interval": 0.25,
+    "max_interval": 0.25,
+    "ties": 0,
+    "non_250ms": 0
+  },
+  {
+    "subject_id": "V-1dc5acbe-3",
+    "samples": 3840,
+    "min_interval": 0.25,
+    "max_interval": 0.25,
+    "ties": 0,
+    "non_250ms": 0
+  }
+]

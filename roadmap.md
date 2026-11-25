@@ -1,0 +1,17 @@
+# Verification tasks
+- [x] Add per-nurse inference-readiness countdown from actual remote timing, sample progress and dispatch state; 43 tests passed and actual authenticated 120-sample replies per showcase nurse verified. See PREDICTION-COUNTDOWN-VERIFICATION.md.
+- [x] Audit exact model rules and complete isolated fresh-ID validation: 96 successful calls / 11,520 acknowledged samples; returned ALERT/ALERT/NORMAL, but OOD and nonseparating probabilities prevent claiming reliable discrimination. See FRESH-SUBJECT-VALIDATION.md.
+- [x] Inspect deployed training/inference assumptions and add a three-nurse showcase with baseline-to-sustained profiles gated by actual calibration.
+- [x] Preserve standard five-nurse simulation and verify actual three-nurse responses (54 calls / 6480 samples accepted, 0 errors); details in SHOWCASE-VERIFICATION.md.
+- [x] Verify fresh calibrating→collecting_window→active progression without resetting existing subjects, using three isolated new IDs.
+- [ ] Certify training distribution — blocked: exact training CSV/export units and class-conditional distributions unavailable; stored scaler confirms major acceleration/spectral mismatch but not correct units.
+- [x] Prevent duplicate/out-of-order batches, serialize nurse requests, and quarantine uncertain outcomes without resets.
+- [x] Add bounded timing/HTTP diagnostics and configurable timeout; test N-001 through N-005 against the real API (23 successful calls, 2880 samples; 28 tests passed).
+- [x] Add safe per-nurse Gradio outcome logs and server response diagnostics.
+- [x] Preserve API values, show real errors, and avoid resets when resuming.
+- [x] Inspect Hugging Face process_request and prepare logging-only app.py copy.
+- [ ] Apply Hugging Face logging remotely — blocked: no authenticated Space write access.
+- [x] Run 17 targeted tests and authenticated live simulation verification; real errors are visible.
+- [x] Verify successful response displayed end-to-end — actual ALERT/probabilities visible for all five nurses; evidence and per-nurse counts in RELIABILITY-VERIFICATION.md.
+- [ ] Enable automatic uncertain-batch recovery / cross-device ordering — blocked: Hugging Face must expose idempotent batch acknowledgement/status and synchronized per-subject processing; current website safely pauses uncertain subjects.
+- [x] Match website to the Space's 1-minute calibration (~2-minute first prediction): health-driven timing, one confirmed reset per new showcase start, named countdown states.

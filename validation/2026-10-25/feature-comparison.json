@@ -1,0 +1,686 @@
+{
+  "V-1dc5acbe-1": {
+    "baseline": {
+      "features_over_3_training_std": 15,
+      "largest_standardized_features": [
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "TEMP_lf_hf_ratio",
+          "value": 4541.673143439775,
+          "training_mean": 12.230671179260357,
+          "training_scale": 11.534360604816046,
+          "standardized": 392.6912489947033
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "HR_dom_freq",
+          "value": 0.16666666666666666,
+          "training_mean": 0.01759441267572075,
+          "training_scale": 0.004195814341505536,
+          "standardized": 35.528801290444136
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_median",
+          "value": 1.0009148120880127,
+          "training_mean": 64.2874427303576,
+          "training_scale": 4.329903230772406,
+          "standardized": -14.616152958914968
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_mean",
+          "value": 1.0006721523900828,
+          "training_mean": 64.50986594998407,
+          "training_scale": 4.368884502383021,
+          "standardized": -14.536706970155132
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_baseline_abs",
+          "value": 1.0006721019744873,
+          "training_mean": 64.50986600791326,
+          "training_scale": 4.368884585278525,
+          "standardized": -14.536706719133882
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "EDA_lf_hf_ratio",
+          "value": 167.90628091381802,
+          "training_mean": 10.827548998907808,
+          "training_scale": 11.945244065019134,
+          "standardized": 13.149897236081179
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_p10",
+          "value": 0.9638812839984894,
+          "training_mean": 61.281967977543566,
+          "training_scale": 5.292955245598963,
+          "standardized": -11.395918517107988
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_p90",
+          "value": 1.0366398811340332,
+          "training_mean": 68.14431809226984,
+          "training_scale": 6.473955333968067,
+          "standardized": -10.365792587265759
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_spec_entropy",
+          "value": 1.1402958323142989,
+          "training_mean": 4.204559890340867,
+          "training_scale": 0.33986986782456946,
+          "standardized": -9.015992143228916
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_max",
+          "value": 1.0523930788040161,
+          "training_mean": 84.17506207680174,
+          "training_scale": 15.634051805899448,
+          "standardized": -5.316770727766919
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "EDA_inter_scr_interval_mean",
+          "value": 35.0,
+          "training_mean": 4.766376929963271,
+          "training_scale": 6.3076227545164585,
+          "standardized": 4.793188217920688
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_spec_centroid",
+          "value": 0.2144162238381312,
+          "training_mean": 1.1622738710570335,
+          "training_scale": 0.2120763747127914,
+          "standardized": -4.469416494423564
+        }
+      ]
+    },
+    "sustained": {
+      "features_over_3_training_std": 11,
+      "largest_standardized_features": [
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 959.75,
+          "feature": "TEMP_lf_hf_ratio",
+          "value": 4535.324931677903,
+          "training_mean": 12.230671179260357,
+          "training_scale": 11.534360604816046,
+          "standardized": 392.14087503125864
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 779.75,
+          "feature": "HR_dom_freq",
+          "value": 0.16666666666666666,
+          "training_mean": 0.01759441267572075,
+          "training_scale": 0.004195814341505536,
+          "standardized": 35.528801290444136
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_median",
+          "value": 1.0037778615951538,
+          "training_mean": 64.2874427303576,
+          "training_scale": 4.329903230772406,
+          "standardized": -14.61549173178019
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_mean",
+          "value": 1.0040303240219752,
+          "training_mean": 64.50986594998407,
+          "training_scale": 4.368884502383021,
+          "standardized": -14.53593831361819
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_baseline_abs",
+          "value": 1.0040303468704224,
+          "training_mean": 64.50986600791326,
+          "training_scale": 4.368884585278525,
+          "standardized": -14.535938045842018
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_p10",
+          "value": 0.9409943759441376,
+          "training_mean": 61.281967977543566,
+          "training_scale": 5.292955245598963,
+          "standardized": -11.40024254914536
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_p90",
+          "value": 1.0661019682884216,
+          "training_mean": 68.14431809226984,
+          "training_scale": 6.473955333968067,
+          "standardized": -10.361241723746543
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 929.75,
+          "feature": "ACC_MAG_spec_entropy",
+          "value": 1.0628065831499642,
+          "training_mean": 4.204559890340867,
+          "training_scale": 0.33986986782456946,
+          "standardized": -9.243988963483464
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_max",
+          "value": 1.0880533456802368,
+          "training_mean": 84.17506207680174,
+          "training_scale": 15.634051805899448,
+          "standardized": -5.314489792068422
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_spec_centroid",
+          "value": 0.3159117242124838,
+          "training_mean": 1.1622738710570335,
+          "training_scale": 0.2120763747127914,
+          "standardized": -3.990836546459983
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_min",
+          "value": 0.9151054620742798,
+          "training_mean": 45.795240041228,
+          "training_scale": 12.90825106782792,
+          "standardized": -3.476856341213522
+        },
+        {
+          "subject_id": "V-1dc5acbe-1",
+          "end_seconds": 689.75,
+          "feature": "HR_spec_centroid",
+          "value": 0.09512043718072298,
+          "training_mean": 0.04628815610267508,
+          "training_scale": 0.01687640331698384,
+          "standardized": 2.8935241805287237
+        }
+      ]
+    }
+  },
+  "V-1dc5acbe-2": {
+    "baseline": {
+      "features_over_3_training_std": 15,
+      "largest_standardized_features": [
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "TEMP_lf_hf_ratio",
+          "value": 4541.673143439775,
+          "training_mean": 12.230671179260357,
+          "training_scale": 11.534360604816046,
+          "standardized": 392.6912489947033
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "HR_dom_freq",
+          "value": 0.16666666666666666,
+          "training_mean": 0.01759441267572075,
+          "training_scale": 0.004195814341505536,
+          "standardized": 35.528801290444136
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_median",
+          "value": 1.0009148120880127,
+          "training_mean": 64.2874427303576,
+          "training_scale": 4.329903230772406,
+          "standardized": -14.616152958914968
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_mean",
+          "value": 1.0006721523900828,
+          "training_mean": 64.50986594998407,
+          "training_scale": 4.368884502383021,
+          "standardized": -14.536706970155132
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_baseline_abs",
+          "value": 1.0006721019744873,
+          "training_mean": 64.50986600791326,
+          "training_scale": 4.368884585278525,
+          "standardized": -14.536706719133882
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "EDA_lf_hf_ratio",
+          "value": 167.90628091381802,
+          "training_mean": 10.827548998907808,
+          "training_scale": 11.945244065019134,
+          "standardized": 13.149897236081179
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_p10",
+          "value": 0.9638812839984894,
+          "training_mean": 61.281967977543566,
+          "training_scale": 5.292955245598963,
+          "standardized": -11.395918517107988
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_p90",
+          "value": 1.0366398811340332,
+          "training_mean": 68.14431809226984,
+          "training_scale": 6.473955333968067,
+          "standardized": -10.365792587265759
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_spec_entropy",
+          "value": 1.1402958323142989,
+          "training_mean": 4.204559890340867,
+          "training_scale": 0.33986986782456946,
+          "standardized": -9.015992143228916
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_max",
+          "value": 1.0523930788040161,
+          "training_mean": 84.17506207680174,
+          "training_scale": 15.634051805899448,
+          "standardized": -5.316770727766919
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "EDA_inter_scr_interval_mean",
+          "value": 35.0,
+          "training_mean": 4.766376929963271,
+          "training_scale": 6.3076227545164585,
+          "standardized": 4.793188217920688
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_spec_centroid",
+          "value": 0.2144162238381312,
+          "training_mean": 1.1622738710570335,
+          "training_scale": 0.2120763747127914,
+          "standardized": -4.469416494423564
+        }
+      ]
+    },
+    "sustained": {
+      "features_over_3_training_std": 11,
+      "largest_standardized_features": [
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 959.75,
+          "feature": "TEMP_lf_hf_ratio",
+          "value": 4535.324931677903,
+          "training_mean": 12.230671179260357,
+          "training_scale": 11.534360604816046,
+          "standardized": 392.14087503125864
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 779.75,
+          "feature": "HR_dom_freq",
+          "value": 0.16666666666666666,
+          "training_mean": 0.01759441267572075,
+          "training_scale": 0.004195814341505536,
+          "standardized": 35.528801290444136
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_median",
+          "value": 1.0037778615951538,
+          "training_mean": 64.2874427303576,
+          "training_scale": 4.329903230772406,
+          "standardized": -14.61549173178019
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_mean",
+          "value": 1.0040303240219752,
+          "training_mean": 64.50986594998407,
+          "training_scale": 4.368884502383021,
+          "standardized": -14.53593831361819
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_baseline_abs",
+          "value": 1.0040303468704224,
+          "training_mean": 64.50986600791326,
+          "training_scale": 4.368884585278525,
+          "standardized": -14.535938045842018
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_p10",
+          "value": 0.9409943759441376,
+          "training_mean": 61.281967977543566,
+          "training_scale": 5.292955245598963,
+          "standardized": -11.40024254914536
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_p90",
+          "value": 1.0661019682884216,
+          "training_mean": 68.14431809226984,
+          "training_scale": 6.473955333968067,
+          "standardized": -10.361241723746543
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 929.75,
+          "feature": "ACC_MAG_spec_entropy",
+          "value": 1.0628065831499642,
+          "training_mean": 4.204559890340867,
+          "training_scale": 0.33986986782456946,
+          "standardized": -9.243988963483464
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_max",
+          "value": 1.0880533456802368,
+          "training_mean": 84.17506207680174,
+          "training_scale": 15.634051805899448,
+          "standardized": -5.314489792068422
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_spec_centroid",
+          "value": 0.3159117242124838,
+          "training_mean": 1.1622738710570335,
+          "training_scale": 0.2120763747127914,
+          "standardized": -3.990836546459983
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_min",
+          "value": 0.9151054620742798,
+          "training_mean": 45.795240041228,
+          "training_scale": 12.90825106782792,
+          "standardized": -3.476856341213522
+        },
+        {
+          "subject_id": "V-1dc5acbe-2",
+          "end_seconds": 689.75,
+          "feature": "HR_spec_centroid",
+          "value": 0.09512043718072298,
+          "training_mean": 0.04628815610267508,
+          "training_scale": 0.01687640331698384,
+          "standardized": 2.8935241805287237
+        }
+      ]
+    }
+  },
+  "V-1dc5acbe-3": {
+    "baseline": {
+      "features_over_3_training_std": 15,
+      "largest_standardized_features": [
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "TEMP_lf_hf_ratio",
+          "value": 4541.673143439775,
+          "training_mean": 12.230671179260357,
+          "training_scale": 11.534360604816046,
+          "standardized": 392.6912489947033
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "HR_dom_freq",
+          "value": 0.16666666666666666,
+          "training_mean": 0.01759441267572075,
+          "training_scale": 0.004195814341505536,
+          "standardized": 35.528801290444136
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_median",
+          "value": 1.0009148120880127,
+          "training_mean": 64.2874427303576,
+          "training_scale": 4.329903230772406,
+          "standardized": -14.616152958914968
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_mean",
+          "value": 1.0006721523900828,
+          "training_mean": 64.50986594998407,
+          "training_scale": 4.368884502383021,
+          "standardized": -14.536706970155132
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_baseline_abs",
+          "value": 1.0006721019744873,
+          "training_mean": 64.50986600791326,
+          "training_scale": 4.368884585278525,
+          "standardized": -14.536706719133882
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "EDA_lf_hf_ratio",
+          "value": 167.90628091381802,
+          "training_mean": 10.827548998907808,
+          "training_scale": 11.945244065019134,
+          "standardized": 13.149897236081179
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_p10",
+          "value": 0.9638812839984894,
+          "training_mean": 61.281967977543566,
+          "training_scale": 5.292955245598963,
+          "standardized": -11.395918517107988
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_p90",
+          "value": 1.0366398811340332,
+          "training_mean": 68.14431809226984,
+          "training_scale": 6.473955333968067,
+          "standardized": -10.365792587265759
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_spec_entropy",
+          "value": 1.1402958323142989,
+          "training_mean": 4.204559890340867,
+          "training_scale": 0.33986986782456946,
+          "standardized": -9.015992143228916
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_max",
+          "value": 1.0523930788040161,
+          "training_mean": 84.17506207680174,
+          "training_scale": 15.634051805899448,
+          "standardized": -5.316770727766919
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "EDA_inter_scr_interval_mean",
+          "value": 35.0,
+          "training_mean": 4.766376929963271,
+          "training_scale": 6.3076227545164585,
+          "standardized": 4.793188217920688
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 539.75,
+          "feature": "ACC_MAG_spec_centroid",
+          "value": 0.2144162238381312,
+          "training_mean": 1.1622738710570335,
+          "training_scale": 0.2120763747127914,
+          "standardized": -4.469416494423564
+        }
+      ]
+    },
+    "sustained": {
+      "features_over_3_training_std": 15,
+      "largest_standardized_features": [
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 959.75,
+          "feature": "TEMP_lf_hf_ratio",
+          "value": 4541.984093006681,
+          "training_mean": 12.230671179260357,
+          "training_scale": 11.534360604816046,
+          "standardized": 392.71820753861914
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 689.75,
+          "feature": "HR_dom_freq",
+          "value": 0.16666666666666666,
+          "training_mean": 0.01759441267572075,
+          "training_scale": 0.004195814341505536,
+          "standardized": 35.528801290444136
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 869.75,
+          "feature": "EDA_lf_hf_ratio",
+          "value": 318.73234644547153,
+          "training_mean": 10.827548998907808,
+          "training_scale": 11.945244065019134,
+          "standardized": 25.776350468069783
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 719.75,
+          "feature": "ACC_MAG_median",
+          "value": 0.9999797344207764,
+          "training_mean": 64.2874427303576,
+          "training_scale": 4.329903230772406,
+          "standardized": -14.616368917013197
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_mean",
+          "value": 1.000353666394949,
+          "training_mean": 64.50986594998407,
+          "training_scale": 4.368884502383021,
+          "standardized": -14.536779868853863
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_baseline_abs",
+          "value": 1.0003535747528076,
+          "training_mean": 64.50986600791326,
+          "training_scale": 4.368884585278525,
+          "standardized": -14.53677962726763
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 809.75,
+          "feature": "ACC_MAG_p10",
+          "value": 0.9620764315128326,
+          "training_mean": 61.281967977543566,
+          "training_scale": 5.292955245598963,
+          "standardized": -11.396259508558304
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 869.75,
+          "feature": "ACC_MAG_p90",
+          "value": 1.0366389274597168,
+          "training_mean": 68.14431809226984,
+          "training_scale": 6.473955333968067,
+          "standardized": -10.365792734575134
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 779.75,
+          "feature": "ACC_MAG_spec_entropy",
+          "value": 1.124360622457042,
+          "training_mean": 4.204559890340867,
+          "training_scale": 0.33986986782456946,
+          "standardized": -9.062878352822178
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_max",
+          "value": 1.052172064781189,
+          "training_mean": 84.17506207680174,
+          "training_scale": 15.634051805899448,
+          "standardized": -5.316784864474765
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 959.75,
+          "feature": "EDA_inter_scr_interval_mean",
+          "value": 35.0,
+          "training_mean": 4.766376929963271,
+          "training_scale": 6.3076227545164585,
+          "standardized": 4.793188217920688
+        },
+        {
+          "subject_id": "V-1dc5acbe-3",
+          "end_seconds": 749.75,
+          "feature": "ACC_MAG_spec_centroid",
+          "value": 0.21110938833824214,
+          "training_mean": 1.1622738710570335,
+          "training_scale": 0.2120763747127914,
+          "standardized": -4.485009157700496
+        }
+      ]
+    }
+  }
+}
